@@ -242,15 +242,23 @@ message ClerkCreateQuoteResponse {
 }
 
 message ClerkGetShipmentRequest {
-  double id = 1;
+  string id = 1;
 }
 message ClerkGetShipmentResponse {
-  double id = 1;
+  Shipment base_shipment = 1;
   string order_id = 2;
   string order_purchase_order = 3;
-  CustomerContact order_contact = 4;
-  Address shipping_address = 5;
-  string delivery_instructions = 6;
+  string shipping_address_id = 4;
+  string shipping_address_name = 5;
+  string shipping_address_line_one = 6;
+  string shipping_address_line_two = 7;
+  string shipping_address_city = 8;
+  string shipping_address_state = 9;
+  string shipping_address_postal_code = 10;
+  string shipping_address_country = 11;
+  string delivery_instructions = 12;
+  string contact_id = 13;
+  string contact_name = 14;
 }
 
 message CustomerListOrdersRequest {
