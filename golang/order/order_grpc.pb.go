@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             (unknown)
-// source: proto/order/order.proto
+// source: proto/order/v1/order.proto
 
 package order
 
@@ -19,17 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	OrderService_ListOrdersByCustomerBranch_FullMethodName   = "/order.OrderService/ListOrdersByCustomerBranch"
-	OrderService_ListOrdersByCustomer_FullMethodName         = "/order.OrderService/ListOrdersByCustomer"
-	OrderService_ListOrdersByTaker_FullMethodName            = "/order.OrderService/ListOrdersByTaker"
-	OrderService_ClerkGetOrder_FullMethodName                = "/order.OrderService/ClerkGetOrder"
-	OrderService_ClerkCreateOrder_FullMethodName             = "/order.OrderService/ClerkCreateOrder"
-	OrderService_ClerkCreateQuote_FullMethodName             = "/order.OrderService/ClerkCreateQuote"
-	OrderService_ClerkGetShipment_FullMethodName             = "/order.OrderService/ClerkGetShipment"
-	OrderService_CustomerGetShipmentsForOrder_FullMethodName = "/order.OrderService/CustomerGetShipmentsForOrder"
-	OrderService_CustomerGetOrder_FullMethodName             = "/order.OrderService/CustomerGetOrder"
-	OrderService_CustomerGetQuote_FullMethodName             = "/order.OrderService/CustomerGetQuote"
-	OrderService_CustomerListOrders_FullMethodName           = "/order.OrderService/CustomerListOrders"
+	OrderService_ListOrdersByCustomerBranch_FullMethodName   = "/order.v1.OrderService/ListOrdersByCustomerBranch"
+	OrderService_ListOrdersByCustomer_FullMethodName         = "/order.v1.OrderService/ListOrdersByCustomer"
+	OrderService_ListOrdersByTaker_FullMethodName            = "/order.v1.OrderService/ListOrdersByTaker"
+	OrderService_ClerkGetOrder_FullMethodName                = "/order.v1.OrderService/ClerkGetOrder"
+	OrderService_ClerkCreateOrder_FullMethodName             = "/order.v1.OrderService/ClerkCreateOrder"
+	OrderService_ClerkCreateQuote_FullMethodName             = "/order.v1.OrderService/ClerkCreateQuote"
+	OrderService_ClerkGetShipment_FullMethodName             = "/order.v1.OrderService/ClerkGetShipment"
+	OrderService_CustomerGetShipmentsForOrder_FullMethodName = "/order.v1.OrderService/CustomerGetShipmentsForOrder"
+	OrderService_CustomerGetOrder_FullMethodName             = "/order.v1.OrderService/CustomerGetOrder"
+	OrderService_CustomerGetQuote_FullMethodName             = "/order.v1.OrderService/CustomerGetQuote"
+	OrderService_CustomerListOrders_FullMethodName           = "/order.v1.OrderService/CustomerListOrders"
 )
 
 // OrderServiceClient is the client API for OrderService service.
@@ -449,7 +449,7 @@ func _OrderService_CustomerListOrders_Handler(srv interface{}, ctx context.Conte
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var OrderService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "order.OrderService",
+	ServiceName: "order.v1.OrderService",
 	HandlerType: (*OrderServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -498,5 +498,5 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/order/order.proto",
+	Metadata: "proto/order/v1/order.proto",
 }
