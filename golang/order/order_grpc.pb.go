@@ -19,26 +19,21 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	OrderService_ListOrdersByCustomerBranch_FullMethodName   = "/order.v1.OrderService/ListOrdersByCustomerBranch"
-	OrderService_ListOrdersByCustomer_FullMethodName         = "/order.v1.OrderService/ListOrdersByCustomer"
-	OrderService_ListOrdersByTaker_FullMethodName            = "/order.v1.OrderService/ListOrdersByTaker"
 	OrderService_ClerkGetOrder_FullMethodName                = "/order.v1.OrderService/ClerkGetOrder"
 	OrderService_ClerkCreateOrder_FullMethodName             = "/order.v1.OrderService/ClerkCreateOrder"
 	OrderService_ClerkCreateQuote_FullMethodName             = "/order.v1.OrderService/ClerkCreateQuote"
 	OrderService_ClerkGetShipment_FullMethodName             = "/order.v1.OrderService/ClerkGetShipment"
-	OrderService_CustomerGetShipmentsForOrder_FullMethodName = "/order.v1.OrderService/CustomerGetShipmentsForOrder"
+	OrderService_ClerkGetShipmentsForOrder_FullMethodName    = "/order.v1.OrderService/ClerkGetShipmentsForOrder"
 	OrderService_CustomerGetOrder_FullMethodName             = "/order.v1.OrderService/CustomerGetOrder"
 	OrderService_CustomerGetQuote_FullMethodName             = "/order.v1.OrderService/CustomerGetQuote"
 	OrderService_CustomerListOrders_FullMethodName           = "/order.v1.OrderService/CustomerListOrders"
+	OrderService_CustomerGetShipmentsForOrder_FullMethodName = "/order.v1.OrderService/CustomerGetShipmentsForOrder"
 )
 
 // OrderServiceClient is the client API for OrderService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrderServiceClient interface {
-	ListOrdersByCustomerBranch(ctx context.Context, in *ListOrdersByCustomerBranchRequest, opts ...grpc.CallOption) (*ListOrdersByCustomerBranchResponse, error)
-	ListOrdersByCustomer(ctx context.Context, in *ListOrdersByCustomerRequest, opts ...grpc.CallOption) (*ListOrdersByCustomerResponse, error)
-	ListOrdersByTaker(ctx context.Context, in *ListOrdersByTakerRequest, opts ...grpc.CallOption) (*ListOrdersByTakerResponse, error)
 	// ClerkGetOrder returns the order details for a given order id
 	ClerkGetOrder(ctx context.Context, in *ClerkGetOrderRequest, opts ...grpc.CallOption) (*ClerkGetOrderResponse, error)
 	// ClerkCreateOrder creates a new order
@@ -47,13 +42,16 @@ type OrderServiceClient interface {
 	ClerkCreateQuote(ctx context.Context, in *ClerkCreateQuoteRequest, opts ...grpc.CallOption) (*ClerkCreateQuoteResponse, error)
 	// ClerkGetShipment returns the shipment details for a given shipment id
 	ClerkGetShipment(ctx context.Context, in *ClerkGetShipmentRequest, opts ...grpc.CallOption) (*ClerkGetShipmentResponse, error)
-	// CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
-	CustomerGetShipmentsForOrder(ctx context.Context, in *CustomerGetShipmentsForOrderRequest, opts ...grpc.CallOption) (*CustomerGetShipmentsForOrderResponse, error)
+	// ClerkGetShipmentsForOrder returns a list of shipment transactions for a given order id
+	ClerkGetShipmentsForOrder(ctx context.Context, in *ClerkGetShipmentsForOrderRequest, opts ...grpc.CallOption) (*ClerkGetShipmentsForOrderResponse, error)
 	// CustomerGetOrder returns the order details for a given order
 	CustomerGetOrder(ctx context.Context, in *CustomerGetOrderRequest, opts ...grpc.CallOption) (*CustomerGetOrderResponse, error)
 	// CustomerGetQuote returns the quote details for a given quote
 	CustomerGetQuote(ctx context.Context, in *CustomerGetQuoteRequest, opts ...grpc.CallOption) (*CustomerGetQuoteResponse, error)
+	// CustomerListOrders returns a list of orders for a given customer
 	CustomerListOrders(ctx context.Context, in *CustomerListOrdersRequest, opts ...grpc.CallOption) (*CustomerListOrdersResponse, error)
+	// CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
+	CustomerGetShipmentsForOrder(ctx context.Context, in *CustomerGetShipmentsForOrderRequest, opts ...grpc.CallOption) (*CustomerGetShipmentsForOrderResponse, error)
 }
 
 type orderServiceClient struct {
@@ -62,36 +60,6 @@ type orderServiceClient struct {
 
 func NewOrderServiceClient(cc grpc.ClientConnInterface) OrderServiceClient {
 	return &orderServiceClient{cc}
-}
-
-func (c *orderServiceClient) ListOrdersByCustomerBranch(ctx context.Context, in *ListOrdersByCustomerBranchRequest, opts ...grpc.CallOption) (*ListOrdersByCustomerBranchResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListOrdersByCustomerBranchResponse)
-	err := c.cc.Invoke(ctx, OrderService_ListOrdersByCustomerBranch_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *orderServiceClient) ListOrdersByCustomer(ctx context.Context, in *ListOrdersByCustomerRequest, opts ...grpc.CallOption) (*ListOrdersByCustomerResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListOrdersByCustomerResponse)
-	err := c.cc.Invoke(ctx, OrderService_ListOrdersByCustomer_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *orderServiceClient) ListOrdersByTaker(ctx context.Context, in *ListOrdersByTakerRequest, opts ...grpc.CallOption) (*ListOrdersByTakerResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListOrdersByTakerResponse)
-	err := c.cc.Invoke(ctx, OrderService_ListOrdersByTaker_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *orderServiceClient) ClerkGetOrder(ctx context.Context, in *ClerkGetOrderRequest, opts ...grpc.CallOption) (*ClerkGetOrderResponse, error) {
@@ -134,10 +102,10 @@ func (c *orderServiceClient) ClerkGetShipment(ctx context.Context, in *ClerkGetS
 	return out, nil
 }
 
-func (c *orderServiceClient) CustomerGetShipmentsForOrder(ctx context.Context, in *CustomerGetShipmentsForOrderRequest, opts ...grpc.CallOption) (*CustomerGetShipmentsForOrderResponse, error) {
+func (c *orderServiceClient) ClerkGetShipmentsForOrder(ctx context.Context, in *ClerkGetShipmentsForOrderRequest, opts ...grpc.CallOption) (*ClerkGetShipmentsForOrderResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CustomerGetShipmentsForOrderResponse)
-	err := c.cc.Invoke(ctx, OrderService_CustomerGetShipmentsForOrder_FullMethodName, in, out, cOpts...)
+	out := new(ClerkGetShipmentsForOrderResponse)
+	err := c.cc.Invoke(ctx, OrderService_ClerkGetShipmentsForOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -174,13 +142,20 @@ func (c *orderServiceClient) CustomerListOrders(ctx context.Context, in *Custome
 	return out, nil
 }
 
+func (c *orderServiceClient) CustomerGetShipmentsForOrder(ctx context.Context, in *CustomerGetShipmentsForOrderRequest, opts ...grpc.CallOption) (*CustomerGetShipmentsForOrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CustomerGetShipmentsForOrderResponse)
+	err := c.cc.Invoke(ctx, OrderService_CustomerGetShipmentsForOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServiceServer is the server API for OrderService service.
 // All implementations should embed UnimplementedOrderServiceServer
 // for forward compatibility
 type OrderServiceServer interface {
-	ListOrdersByCustomerBranch(context.Context, *ListOrdersByCustomerBranchRequest) (*ListOrdersByCustomerBranchResponse, error)
-	ListOrdersByCustomer(context.Context, *ListOrdersByCustomerRequest) (*ListOrdersByCustomerResponse, error)
-	ListOrdersByTaker(context.Context, *ListOrdersByTakerRequest) (*ListOrdersByTakerResponse, error)
 	// ClerkGetOrder returns the order details for a given order id
 	ClerkGetOrder(context.Context, *ClerkGetOrderRequest) (*ClerkGetOrderResponse, error)
 	// ClerkCreateOrder creates a new order
@@ -189,28 +164,22 @@ type OrderServiceServer interface {
 	ClerkCreateQuote(context.Context, *ClerkCreateQuoteRequest) (*ClerkCreateQuoteResponse, error)
 	// ClerkGetShipment returns the shipment details for a given shipment id
 	ClerkGetShipment(context.Context, *ClerkGetShipmentRequest) (*ClerkGetShipmentResponse, error)
-	// CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
-	CustomerGetShipmentsForOrder(context.Context, *CustomerGetShipmentsForOrderRequest) (*CustomerGetShipmentsForOrderResponse, error)
+	// ClerkGetShipmentsForOrder returns a list of shipment transactions for a given order id
+	ClerkGetShipmentsForOrder(context.Context, *ClerkGetShipmentsForOrderRequest) (*ClerkGetShipmentsForOrderResponse, error)
 	// CustomerGetOrder returns the order details for a given order
 	CustomerGetOrder(context.Context, *CustomerGetOrderRequest) (*CustomerGetOrderResponse, error)
 	// CustomerGetQuote returns the quote details for a given quote
 	CustomerGetQuote(context.Context, *CustomerGetQuoteRequest) (*CustomerGetQuoteResponse, error)
+	// CustomerListOrders returns a list of orders for a given customer
 	CustomerListOrders(context.Context, *CustomerListOrdersRequest) (*CustomerListOrdersResponse, error)
+	// CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
+	CustomerGetShipmentsForOrder(context.Context, *CustomerGetShipmentsForOrderRequest) (*CustomerGetShipmentsForOrderResponse, error)
 }
 
 // UnimplementedOrderServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedOrderServiceServer struct {
 }
 
-func (UnimplementedOrderServiceServer) ListOrdersByCustomerBranch(context.Context, *ListOrdersByCustomerBranchRequest) (*ListOrdersByCustomerBranchResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListOrdersByCustomerBranch not implemented")
-}
-func (UnimplementedOrderServiceServer) ListOrdersByCustomer(context.Context, *ListOrdersByCustomerRequest) (*ListOrdersByCustomerResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListOrdersByCustomer not implemented")
-}
-func (UnimplementedOrderServiceServer) ListOrdersByTaker(context.Context, *ListOrdersByTakerRequest) (*ListOrdersByTakerResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListOrdersByTaker not implemented")
-}
 func (UnimplementedOrderServiceServer) ClerkGetOrder(context.Context, *ClerkGetOrderRequest) (*ClerkGetOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ClerkGetOrder not implemented")
 }
@@ -223,8 +192,8 @@ func (UnimplementedOrderServiceServer) ClerkCreateQuote(context.Context, *ClerkC
 func (UnimplementedOrderServiceServer) ClerkGetShipment(context.Context, *ClerkGetShipmentRequest) (*ClerkGetShipmentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ClerkGetShipment not implemented")
 }
-func (UnimplementedOrderServiceServer) CustomerGetShipmentsForOrder(context.Context, *CustomerGetShipmentsForOrderRequest) (*CustomerGetShipmentsForOrderResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetShipmentsForOrder not implemented")
+func (UnimplementedOrderServiceServer) ClerkGetShipmentsForOrder(context.Context, *ClerkGetShipmentsForOrderRequest) (*ClerkGetShipmentsForOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClerkGetShipmentsForOrder not implemented")
 }
 func (UnimplementedOrderServiceServer) CustomerGetOrder(context.Context, *CustomerGetOrderRequest) (*CustomerGetOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetOrder not implemented")
@@ -234,6 +203,9 @@ func (UnimplementedOrderServiceServer) CustomerGetQuote(context.Context, *Custom
 }
 func (UnimplementedOrderServiceServer) CustomerListOrders(context.Context, *CustomerListOrdersRequest) (*CustomerListOrdersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerListOrders not implemented")
+}
+func (UnimplementedOrderServiceServer) CustomerGetShipmentsForOrder(context.Context, *CustomerGetShipmentsForOrderRequest) (*CustomerGetShipmentsForOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetShipmentsForOrder not implemented")
 }
 
 // UnsafeOrderServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -245,60 +217,6 @@ type UnsafeOrderServiceServer interface {
 
 func RegisterOrderServiceServer(s grpc.ServiceRegistrar, srv OrderServiceServer) {
 	s.RegisterService(&OrderService_ServiceDesc, srv)
-}
-
-func _OrderService_ListOrdersByCustomerBranch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListOrdersByCustomerBranchRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrderServiceServer).ListOrdersByCustomerBranch(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrderService_ListOrdersByCustomerBranch_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).ListOrdersByCustomerBranch(ctx, req.(*ListOrdersByCustomerBranchRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OrderService_ListOrdersByCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListOrdersByCustomerRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrderServiceServer).ListOrdersByCustomer(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrderService_ListOrdersByCustomer_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).ListOrdersByCustomer(ctx, req.(*ListOrdersByCustomerRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OrderService_ListOrdersByTaker_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListOrdersByTakerRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrderServiceServer).ListOrdersByTaker(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrderService_ListOrdersByTaker_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).ListOrdersByTaker(ctx, req.(*ListOrdersByTakerRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _OrderService_ClerkGetOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -373,20 +291,20 @@ func _OrderService_ClerkGetShipment_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrderService_CustomerGetShipmentsForOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CustomerGetShipmentsForOrderRequest)
+func _OrderService_ClerkGetShipmentsForOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClerkGetShipmentsForOrderRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrderServiceServer).CustomerGetShipmentsForOrder(ctx, in)
+		return srv.(OrderServiceServer).ClerkGetShipmentsForOrder(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OrderService_CustomerGetShipmentsForOrder_FullMethodName,
+		FullMethod: OrderService_ClerkGetShipmentsForOrder_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).CustomerGetShipmentsForOrder(ctx, req.(*CustomerGetShipmentsForOrderRequest))
+		return srv.(OrderServiceServer).ClerkGetShipmentsForOrder(ctx, req.(*ClerkGetShipmentsForOrderRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -445,6 +363,24 @@ func _OrderService_CustomerListOrders_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderService_CustomerGetShipmentsForOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CustomerGetShipmentsForOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).CustomerGetShipmentsForOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrderService_CustomerGetShipmentsForOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).CustomerGetShipmentsForOrder(ctx, req.(*CustomerGetShipmentsForOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderService_ServiceDesc is the grpc.ServiceDesc for OrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -452,18 +388,6 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "order.v1.OrderService",
 	HandlerType: (*OrderServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "ListOrdersByCustomerBranch",
-			Handler:    _OrderService_ListOrdersByCustomerBranch_Handler,
-		},
-		{
-			MethodName: "ListOrdersByCustomer",
-			Handler:    _OrderService_ListOrdersByCustomer_Handler,
-		},
-		{
-			MethodName: "ListOrdersByTaker",
-			Handler:    _OrderService_ListOrdersByTaker_Handler,
-		},
 		{
 			MethodName: "ClerkGetOrder",
 			Handler:    _OrderService_ClerkGetOrder_Handler,
@@ -481,8 +405,8 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrderService_ClerkGetShipment_Handler,
 		},
 		{
-			MethodName: "CustomerGetShipmentsForOrder",
-			Handler:    _OrderService_CustomerGetShipmentsForOrder_Handler,
+			MethodName: "ClerkGetShipmentsForOrder",
+			Handler:    _OrderService_ClerkGetShipmentsForOrder_Handler,
 		},
 		{
 			MethodName: "CustomerGetOrder",
@@ -495,6 +419,10 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CustomerListOrders",
 			Handler:    _OrderService_CustomerListOrders_Handler,
+		},
+		{
+			MethodName: "CustomerGetShipmentsForOrder",
+			Handler:    _OrderService_CustomerGetShipmentsForOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
