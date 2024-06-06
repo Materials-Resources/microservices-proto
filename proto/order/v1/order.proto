@@ -6,6 +6,20 @@ package order.v1;
 
 option go_package = "golang/order";
 
+message Order {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    STATUS_APPROVED = 1;
+    STATUS_COMPLETED= 2;
+    STATUS_CANCELLED = 3;
+  }
+  string id = 1;
+  Status status = 2;
+  google.protobuf.Timestamp date_placed = 3;
+  string purchase_order = 4;
+
+
+}
 message OrderItem {
   string id = 1;
   string product_uid = 2;
@@ -19,6 +33,12 @@ message OrderItem {
   double total_price = 10;
   double shipped_quantity = 11;
   double back_ordered_quantity = 12;
+}
+
+message Shipment {
+  string id = 1;
+  string carrier_name = 2;
+  string carrier_tracking = 3;
 }
 
 message Address {
@@ -46,13 +66,6 @@ message CustomerContact {
   string title = 6;
 }
 
-message SimplifiedShipment {
-  string id = 1;
-  string order_id = 2[deprecated = true];
-  string invoice_id = 3[deprecated = true];
-  string carrier_name = 4;
-  string carrier_tracking = 5;
-}
 
 message BasicOrder {
   string id = 1;
@@ -91,9 +104,6 @@ message Filters {
   PageDirection direction = 2;
 }
 service OrderService {
-  rpc ListOrdersByCustomerBranch(ListOrdersByCustomerBranchRequest) returns (ListOrdersByCustomerBranchResponse);
-  rpc ListOrdersByCustomer(ListOrdersByCustomerRequest) returns (ListOrdersByCustomerResponse);
-  rpc ListOrdersByTaker(ListOrdersByTakerRequest) returns (ListOrdersByTakerResponse);
 
   // ClerkGetOrder returns the order details for a given order id
   rpc ClerkGetOrder(ClerkGetOrderRequest) returns (ClerkGetOrderResponse);
@@ -103,16 +113,18 @@ service OrderService {
   rpc ClerkCreateQuote(ClerkCreateQuoteRequest) returns (ClerkCreateQuoteResponse);
   // ClerkGetShipment returns the shipment details for a given shipment id
   rpc ClerkGetShipment(ClerkGetShipmentRequest) returns (ClerkGetShipmentResponse);
+  // ClerkGetShipmentsForOrder returns a list of shipment transactions for a given order id
+  rpc ClerkGetShipmentsForOrder(ClerkGetShipmentsForOrderRequest) returns (ClerkGetShipmentsForOrderResponse);
 
 
-  // CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
-  rpc CustomerGetShipmentsForOrder(CustomerGetShipmentsForOrderRequest) returns (CustomerGetShipmentsForOrderResponse);
   // CustomerGetOrder returns the order details for a given order
   rpc CustomerGetOrder(CustomerGetOrderRequest) returns (CustomerGetOrderResponse);
   // CustomerGetQuote returns the quote details for a given quote
   rpc CustomerGetQuote(CustomerGetQuoteRequest) returns (CustomerGetQuoteResponse);
-
+  // CustomerListOrders returns a list of orders for a given customer
   rpc CustomerListOrders(CustomerListOrdersRequest) returns (CustomerListOrdersResponse);
+  // CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
+  rpc CustomerGetShipmentsForOrder(CustomerGetShipmentsForOrderRequest) returns (CustomerGetShipmentsForOrderResponse);
 }
 
 message CustomerGetOrderRequest {
@@ -162,40 +174,14 @@ message CustomerGetShipmentsForOrderRequest {
 }
 
 message CustomerGetShipmentsForOrderResponse {
-  repeated SimplifiedShipment shipments = 1;
+  repeated Shipment shipments = 1;
 }
 
-message ListOrdersByCustomerBranchRequest {
-  double customer_branch_id = 1;
-  Filters filters = 2;
-}
-
-message ListOrdersByCustomerBranchResponse {
-  repeated BasicOrder orders = 1;
-  PageMetadata metadata = 2;
-}
 
 message ClerkCreateOrderRequest {}
 message ClerkCreateOrderResponse {}
 
-message ListOrdersByCustomerRequest {
-  double customer_id = 1;
-  Filters filters = 2;
 
-}
-
-message ListOrdersByCustomerResponse {
-  repeated BasicOrder orders = 1;
-  PageMetadata metadata = 2;
-}
-
-message ListOrdersByTakerRequest {
-  string taker = 1;
-}
-
-message ListOrdersByTakerResponse {
-  repeated BasicOrder orders = 1;
-}
 
 message ClerkGetOrderRequest {
   string id = 1;
@@ -267,6 +253,16 @@ message ClerkGetShipmentResponse {
   string delivery_instructions = 6;
 }
 
-message CustomerListOrdersRequest {}
+message CustomerListOrdersRequest {
+  string customer_id = 1;
+}
 message CustomerListOrdersResponse {
+  repeated Order orders = 1;
+}
+
+message ClerkGetShipmentsForOrderRequest {
+  string order_id = 1;
+}
+message ClerkGetShipmentsForOrderResponse {
+  repeated Shipment shipments = 1;
 }
