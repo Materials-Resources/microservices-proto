@@ -6,6 +6,12 @@ package catalog.v1;
 
 option go_package = "golang/catalog";
 
+enum DeleteMode {
+  DELETE_MODE_UNSPECIFIED = 0;
+  DELETE_MODE_SOFT = 1;
+  DELETE_MODE_HARD = 2;
+}
+
 message ValidationError {
   string field = 1;
   string message = 2;
@@ -46,7 +52,6 @@ message Product {
 message ProductGroup {
   string sn = 1;
   string name = 2;
-  int32 uid = 3;
 }
 
 message ProductFilter {
@@ -54,6 +59,21 @@ message ProductFilter {
 }
 
 service CatalogService {
+  // CustomerGetProduct returns a product for a customer
+  rpc CustomerGetProduct(CustomerGetProductRequest) returns (CustomerGetProductResponse);
+
+  // ClerkListGroups returns a List of product groups
+  rpc ClerkListGroups(ClerkListGroupRequest) returns (ClerkListGroupResponse);
+  // ClerkCreateGroup creates a new product group
+  rpc ClerkCreateGroup(ClerkCreateGroupRequest) returns (ClerkCreateGroupResponse);
+  // ClerkReadGroup returns a product group with products
+  rpc ClerkReadGroup(ClerkReadGroupRequest) returns (ClerkReadGroupResponse);
+  // ClerkUpdateGroup updates a product group
+  rpc ClerkUpdateGroup(ClerkUpdateGroupRequest) returns (ClerkUpdateGroupResponse);
+  // ClerkDeleteGroup deletes a product group
+  rpc ClerkDeleteGroup(ClerkDeleteGroupRequest) returns (ClerkDeleteGroupResponse);
+
+
   // ListProducts returns a List of products
   rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
   // GetProduct returns a single product
@@ -67,9 +87,6 @@ service CatalogService {
   // GetBasicProductDetails returns a List of basic product details
   rpc GetBasicProductDetails(GetBasicProductDetailsRequest) returns (GetBasicProductDetailsResponse);
 
-  // GetProductPrice returns the price of a product
-  rpc GetProductPrice(GetProductPriceRequest) returns (GetProductPriceResponse);
-
   // ListSuppliers returns a List of suppliers for a product
   rpc ListSuppliers(ListSuppliersRequest) returns (ListSuppliersResponse);
   // GetSupplier returns the supplier of a product
@@ -81,21 +98,52 @@ service CatalogService {
   // SetPrimarySupplier sets the primary supplier for a product
   rpc SetPrimarySupplier(SetPrimarySupplierRequest) returns (SetPrimarySupplierResponse);
 
-  // ListProductGroups returns a List of product groups
-  rpc ListProductGroups(ListProductGroupsRequest) returns (ListProductGroupsResponse);
-  // GetProductGroup returns a single product group
-  rpc GetProductGroup(GetProductGroupRequest) returns (GetProductGroupResponse);
-  // CreateProductGroup creates a product group
-  rpc CreateProductGroup(CreateProductGroupRequest) returns (CreateProductGroupResponse);
-  // UpdateProductGroup updates a product group
-  rpc UpdateProductGroup(UpdateProductGroupRequest) returns (UpdateProductGroupResponse);
 
   // GetProductBySupplier returns a product by supplier identifiers
   rpc GetProductBySupplier(GetProductBySupplierRequest) returns (GetProductBySupplierResponse);
 
-  // CustomerGetProduct returns a product for a customer
-  rpc CustomerGetProduct(CustomerGetProductRequest) returns (CustomerGetProductResponse);
+
 }
+
+message ClerkListGroupRequest {}
+message ClerkListGroupResponse {
+  repeated ProductGroup product_groups = 1;
+}
+message ClerkCreateGroupRequest {
+  string sn = 1;
+  string name = 2;
+}
+
+message ClerkCreateGroupResponse {
+  repeated ValidationError validation_errors = 1;
+}
+
+message ClerkReadGroupRequest {
+  string sn = 1;
+}
+message ClerkReadGroupResponse {
+  ProductGroup product_group = 1;
+  repeated Product products = 2;
+}
+
+message ClerkUpdateGroupRequest {
+  message ProductGroup {
+    string name = 1;
+  }
+  string sn = 1;
+  ProductGroup product_group = 2;
+  google.protobuf.FieldMask update_mask = 3;
+}
+
+message ClerkUpdateGroupResponse {
+  repeated ValidationError validation_errors = 1;
+}
+
+message ClerkDeleteGroupRequest {
+  string sn = 1;
+  DeleteMode delete_mode = 2;
+}
+message ClerkDeleteGroupResponse {}
 
 
 message GetSupplierRequest {
@@ -256,7 +304,6 @@ message GetProductBySupplierResponse {
 
 message CustomerGetProductRequest {
   string product_uid = 1; // Unique identifier of product
-  string customer_branch_id = 2; // Customer branch requesting product
 }
 
 message CustomerGetProductResponse {
