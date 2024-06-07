@@ -833,7 +833,6 @@ type ClerkUpdateGroupRequest struct {
 
 	Sn           string                                `protobuf:"bytes,1,opt,name=sn,proto3" json:"sn,omitempty"`
 	ProductGroup *ClerkUpdateGroupRequest_ProductGroup `protobuf:"bytes,2,opt,name=product_group,json=productGroup,proto3" json:"product_group,omitempty"`
-	UpdateMask   *fieldmaskpb.FieldMask                `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 }
 
 func (x *ClerkUpdateGroupRequest) Reset() {
@@ -878,13 +877,6 @@ func (x *ClerkUpdateGroupRequest) GetSn() string {
 func (x *ClerkUpdateGroupRequest) GetProductGroup() *ClerkUpdateGroupRequest_ProductGroup {
 	if x != nil {
 		return x.ProductGroup
-	}
-	return nil
-}
-
-func (x *ClerkUpdateGroupRequest) GetUpdateMask() *fieldmaskpb.FieldMask {
-	if x != nil {
-		return x.UpdateMask
 	}
 	return nil
 }
@@ -2593,7 +2585,8 @@ type ClerkUpdateGroupRequest_ProductGroup struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	UpdateMask *fieldmaskpb.FieldMask `protobuf:"bytes,1,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	Name       string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 }
 
 func (x *ClerkUpdateGroupRequest_ProductGroup) Reset() {
@@ -2626,6 +2619,13 @@ func (x *ClerkUpdateGroupRequest_ProductGroup) ProtoReflect() protoreflect.Messa
 // Deprecated: Use ClerkUpdateGroupRequest_ProductGroup.ProtoReflect.Descriptor instead.
 func (*ClerkUpdateGroupRequest_ProductGroup) Descriptor() ([]byte, []int) {
 	return file_proto_catalog_v1_catalog_proto_rawDescGZIP(), []int{13, 0}
+}
+
+func (x *ClerkUpdateGroupRequest_ProductGroup) GetUpdateMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.UpdateMask
+	}
+	return nil
 }
 
 func (x *ClerkUpdateGroupRequest_ProductGroup) GetName() string {
@@ -2806,13 +2806,13 @@ var file_proto_catalog_v1_catalog_proto_rawDesc = []byte{
 	0x61, 0x6c, 0x6f, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6c, 0x65, 0x72, 0x6b, 0x55, 0x70, 0x64,
 	0x61, 0x74, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e,
 	0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x52, 0x0c, 0x70, 0x72,
+	0x6f, 0x64, 0x75, 0x63, 0x74, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x1a, 0x5f, 0x0a, 0x0c, 0x50, 0x72,
 	0x6f, 0x64, 0x75, 0x63, 0x74, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x12, 0x3b, 0x0a, 0x0b, 0x75, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x64, 0x61, 0x74, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
 	0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
 	0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x52, 0x0a, 0x75, 0x70, 0x64,
-	0x61, 0x74, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x1a, 0x22, 0x0a, 0x0c, 0x50, 0x72, 0x6f, 0x64, 0x75,
-	0x63, 0x74, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x64, 0x0a, 0x18, 0x43,
+	0x61, 0x74, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x64, 0x0a, 0x18, 0x43,
 	0x6c, 0x65, 0x72, 0x6b, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x52,
 	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x48, 0x0a, 0x11, 0x76, 0x61, 0x6c, 0x69, 0x64,
 	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03,
@@ -3197,22 +3197,22 @@ var file_proto_catalog_v1_catalog_proto_depIdxs = []int32{
 	1,  // 1: catalog.v1.ClerkCreateGroupResponse.validation_errors:type_name -> catalog.v1.ValidationError
 	6,  // 2: catalog.v1.ClerkReadGroupResponse.product_group:type_name -> catalog.v1.ProductGroup
 	48, // 3: catalog.v1.ClerkUpdateGroupRequest.product_group:type_name -> catalog.v1.ClerkUpdateGroupRequest.ProductGroup
-	50, // 4: catalog.v1.ClerkUpdateGroupRequest.update_mask:type_name -> google.protobuf.FieldMask
-	1,  // 5: catalog.v1.ClerkUpdateGroupResponse.validation_errors:type_name -> catalog.v1.ValidationError
-	0,  // 6: catalog.v1.ClerkDeleteGroupRequest.delete_mode:type_name -> catalog.v1.DeleteMode
-	3,  // 7: catalog.v1.ListProductsResponse.products:type_name -> catalog.v1.ProductDetail
-	3,  // 8: catalog.v1.GetProductResponse.product:type_name -> catalog.v1.ProductDetail
-	1,  // 9: catalog.v1.CreateProductResponse.validation_errors:type_name -> catalog.v1.ValidationError
-	3,  // 10: catalog.v1.UpdateProductRequest.product:type_name -> catalog.v1.ProductDetail
-	49, // 11: catalog.v1.GetBasicProductDetailsResponse.basic_product_details:type_name -> catalog.v1.GetBasicProductDetailsResponse.BasicProductDetail
-	4,  // 12: catalog.v1.ListSuppliersResponse.product_suppliers:type_name -> catalog.v1.ProductSupplier
-	4,  // 13: catalog.v1.GetSupplierResponse.product_supplier:type_name -> catalog.v1.ProductSupplier
-	4,  // 14: catalog.v1.UpdateSupplierRequest.product_supplier:type_name -> catalog.v1.ProductSupplier
-	50, // 15: catalog.v1.UpdateSupplierRequest.update_mask:type_name -> google.protobuf.FieldMask
-	6,  // 16: catalog.v1.CreateProductGroupRequest.product_group:type_name -> catalog.v1.ProductGroup
-	1,  // 17: catalog.v1.CreateProductGroupResponse.validation_errors:type_name -> catalog.v1.ValidationError
-	6,  // 18: catalog.v1.UpdateProductGroupRequest.product_group:type_name -> catalog.v1.ProductGroup
-	5,  // 19: catalog.v1.CustomerGetProductResponse.product:type_name -> catalog.v1.Product
+	1,  // 4: catalog.v1.ClerkUpdateGroupResponse.validation_errors:type_name -> catalog.v1.ValidationError
+	0,  // 5: catalog.v1.ClerkDeleteGroupRequest.delete_mode:type_name -> catalog.v1.DeleteMode
+	3,  // 6: catalog.v1.ListProductsResponse.products:type_name -> catalog.v1.ProductDetail
+	3,  // 7: catalog.v1.GetProductResponse.product:type_name -> catalog.v1.ProductDetail
+	1,  // 8: catalog.v1.CreateProductResponse.validation_errors:type_name -> catalog.v1.ValidationError
+	3,  // 9: catalog.v1.UpdateProductRequest.product:type_name -> catalog.v1.ProductDetail
+	49, // 10: catalog.v1.GetBasicProductDetailsResponse.basic_product_details:type_name -> catalog.v1.GetBasicProductDetailsResponse.BasicProductDetail
+	4,  // 11: catalog.v1.ListSuppliersResponse.product_suppliers:type_name -> catalog.v1.ProductSupplier
+	4,  // 12: catalog.v1.GetSupplierResponse.product_supplier:type_name -> catalog.v1.ProductSupplier
+	4,  // 13: catalog.v1.UpdateSupplierRequest.product_supplier:type_name -> catalog.v1.ProductSupplier
+	50, // 14: catalog.v1.UpdateSupplierRequest.update_mask:type_name -> google.protobuf.FieldMask
+	6,  // 15: catalog.v1.CreateProductGroupRequest.product_group:type_name -> catalog.v1.ProductGroup
+	1,  // 16: catalog.v1.CreateProductGroupResponse.validation_errors:type_name -> catalog.v1.ValidationError
+	6,  // 17: catalog.v1.UpdateProductGroupRequest.product_group:type_name -> catalog.v1.ProductGroup
+	5,  // 18: catalog.v1.CustomerGetProductResponse.product:type_name -> catalog.v1.Product
+	50, // 19: catalog.v1.ClerkUpdateGroupRequest.ProductGroup.update_mask:type_name -> google.protobuf.FieldMask
 	46, // 20: catalog.v1.CatalogService.CustomerGetProduct:input_type -> catalog.v1.CustomerGetProductRequest
 	8,  // 21: catalog.v1.CatalogService.ClerkListGroups:input_type -> catalog.v1.ClerkListGroupRequest
 	10, // 22: catalog.v1.CatalogService.ClerkCreateGroup:input_type -> catalog.v1.ClerkCreateGroupRequest

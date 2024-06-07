@@ -127,11 +127,12 @@ message ClerkReadGroupResponse {
 
 message ClerkUpdateGroupRequest {
   message ProductGroup {
-    string name = 1;
+    google.protobuf.FieldMask update_mask = 1;
+    string name = 2;
   }
   string sn = 1;
   ProductGroup product_group = 2;
-  google.protobuf.FieldMask update_mask = 3;
+
 }
 
 message ClerkUpdateGroupResponse {
