@@ -19,24 +19,23 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	CatalogService_CustomerGetProduct_FullMethodName     = "/catalog.v1.CatalogService/CustomerGetProduct"
-	CatalogService_ClerkListGroups_FullMethodName        = "/catalog.v1.CatalogService/ClerkListGroups"
-	CatalogService_ClerkCreateGroup_FullMethodName       = "/catalog.v1.CatalogService/ClerkCreateGroup"
-	CatalogService_ClerkReadGroup_FullMethodName         = "/catalog.v1.CatalogService/ClerkReadGroup"
-	CatalogService_ClerkUpdateGroup_FullMethodName       = "/catalog.v1.CatalogService/ClerkUpdateGroup"
-	CatalogService_ClerkDeleteGroup_FullMethodName       = "/catalog.v1.CatalogService/ClerkDeleteGroup"
-	CatalogService_ListProducts_FullMethodName           = "/catalog.v1.CatalogService/ListProducts"
-	CatalogService_GetProduct_FullMethodName             = "/catalog.v1.CatalogService/GetProduct"
-	CatalogService_CreateProduct_FullMethodName          = "/catalog.v1.CatalogService/CreateProduct"
-	CatalogService_UpdateProduct_FullMethodName          = "/catalog.v1.CatalogService/UpdateProduct"
-	CatalogService_DeleteProduct_FullMethodName          = "/catalog.v1.CatalogService/DeleteProduct"
-	CatalogService_GetBasicProductDetails_FullMethodName = "/catalog.v1.CatalogService/GetBasicProductDetails"
-	CatalogService_ListSuppliers_FullMethodName          = "/catalog.v1.CatalogService/ListSuppliers"
-	CatalogService_GetSupplier_FullMethodName            = "/catalog.v1.CatalogService/GetSupplier"
-	CatalogService_CreateSupplier_FullMethodName         = "/catalog.v1.CatalogService/CreateSupplier"
-	CatalogService_UpdateSupplier_FullMethodName         = "/catalog.v1.CatalogService/UpdateSupplier"
-	CatalogService_SetPrimarySupplier_FullMethodName     = "/catalog.v1.CatalogService/SetPrimarySupplier"
-	CatalogService_GetProductBySupplier_FullMethodName   = "/catalog.v1.CatalogService/GetProductBySupplier"
+	CatalogService_CustomerGetProduct_FullMethodName   = "/catalog.v1.CatalogService/CustomerGetProduct"
+	CatalogService_ClerkListProducts_FullMethodName    = "/catalog.v1.CatalogService/ClerkListProducts"
+	CatalogService_ClerkCreateProduct_FullMethodName   = "/catalog.v1.CatalogService/ClerkCreateProduct"
+	CatalogService_ClerkReadProduct_FullMethodName     = "/catalog.v1.CatalogService/ClerkReadProduct"
+	CatalogService_ClerkUpdateProduct_FullMethodName   = "/catalog.v1.CatalogService/ClerkUpdateProduct"
+	CatalogService_ClerkDeleteProduct_FullMethodName   = "/catalog.v1.CatalogService/ClerkDeleteProduct"
+	CatalogService_ClerkListGroups_FullMethodName      = "/catalog.v1.CatalogService/ClerkListGroups"
+	CatalogService_ClerkCreateGroup_FullMethodName     = "/catalog.v1.CatalogService/ClerkCreateGroup"
+	CatalogService_ClerkReadGroup_FullMethodName       = "/catalog.v1.CatalogService/ClerkReadGroup"
+	CatalogService_ClerkUpdateGroup_FullMethodName     = "/catalog.v1.CatalogService/ClerkUpdateGroup"
+	CatalogService_ClerkDeleteGroup_FullMethodName     = "/catalog.v1.CatalogService/ClerkDeleteGroup"
+	CatalogService_ListSuppliers_FullMethodName        = "/catalog.v1.CatalogService/ListSuppliers"
+	CatalogService_GetSupplier_FullMethodName          = "/catalog.v1.CatalogService/GetSupplier"
+	CatalogService_CreateSupplier_FullMethodName       = "/catalog.v1.CatalogService/CreateSupplier"
+	CatalogService_UpdateSupplier_FullMethodName       = "/catalog.v1.CatalogService/UpdateSupplier"
+	CatalogService_SetPrimarySupplier_FullMethodName   = "/catalog.v1.CatalogService/SetPrimarySupplier"
+	CatalogService_GetProductBySupplier_FullMethodName = "/catalog.v1.CatalogService/GetProductBySupplier"
 )
 
 // CatalogServiceClient is the client API for CatalogService service.
@@ -45,6 +44,16 @@ const (
 type CatalogServiceClient interface {
 	// CustomerGetProduct returns a product for a customer
 	CustomerGetProduct(ctx context.Context, in *CustomerGetProductRequest, opts ...grpc.CallOption) (*CustomerGetProductResponse, error)
+	// ClerkListProducts returns a List of products
+	ClerkListProducts(ctx context.Context, in *ClerkListProductsRequest, opts ...grpc.CallOption) (*ClerkListProductsResponse, error)
+	// ClerkCreateProduct creates a product
+	ClerkCreateProduct(ctx context.Context, in *ClerkCreateProductRequest, opts ...grpc.CallOption) (*ClerkCreateProductResponse, error)
+	// ClerkGetProduct returns a product
+	ClerkReadProduct(ctx context.Context, in *ClerkReadProductRequest, opts ...grpc.CallOption) (*ClerkReadProductResponse, error)
+	// ClerkUpdateProduct updates a product
+	ClerkUpdateProduct(ctx context.Context, in *ClerkUpdateProductRequest, opts ...grpc.CallOption) (*ClerkUpdateProductResponse, error)
+	// ClerkDeleteProduct deletes a product
+	ClerkDeleteProduct(ctx context.Context, in *ClerkDeleteProductRequest, opts ...grpc.CallOption) (*ClerkDeleteProductResponse, error)
 	// ClerkListGroups returns a List of product groups
 	ClerkListGroups(ctx context.Context, in *ClerkListGroupRequest, opts ...grpc.CallOption) (*ClerkListGroupResponse, error)
 	// ClerkCreateGroup creates a new product group
@@ -55,18 +64,6 @@ type CatalogServiceClient interface {
 	ClerkUpdateGroup(ctx context.Context, in *ClerkUpdateGroupRequest, opts ...grpc.CallOption) (*ClerkUpdateGroupResponse, error)
 	// ClerkDeleteGroup deletes a product group
 	ClerkDeleteGroup(ctx context.Context, in *ClerkDeleteGroupRequest, opts ...grpc.CallOption) (*ClerkDeleteGroupResponse, error)
-	// ListProducts returns a List of products
-	ListProducts(ctx context.Context, in *ListProductsRequest, opts ...grpc.CallOption) (*ListProductsResponse, error)
-	// GetProduct returns a single product
-	GetProduct(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*GetProductResponse, error)
-	// CreateProduct creates a product
-	CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*CreateProductResponse, error)
-	// UpdateProduct updates a product
-	UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error)
-	// DeleteProduct deletes a product
-	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error)
-	// GetBasicProductDetails returns a List of basic product details
-	GetBasicProductDetails(ctx context.Context, in *GetBasicProductDetailsRequest, opts ...grpc.CallOption) (*GetBasicProductDetailsResponse, error)
 	// ListSuppliers returns a List of suppliers for a product
 	ListSuppliers(ctx context.Context, in *ListSuppliersRequest, opts ...grpc.CallOption) (*ListSuppliersResponse, error)
 	// GetSupplier returns the supplier of a product
@@ -93,6 +90,56 @@ func (c *catalogServiceClient) CustomerGetProduct(ctx context.Context, in *Custo
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CustomerGetProductResponse)
 	err := c.cc.Invoke(ctx, CatalogService_CustomerGetProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) ClerkListProducts(ctx context.Context, in *ClerkListProductsRequest, opts ...grpc.CallOption) (*ClerkListProductsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ClerkListProductsResponse)
+	err := c.cc.Invoke(ctx, CatalogService_ClerkListProducts_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) ClerkCreateProduct(ctx context.Context, in *ClerkCreateProductRequest, opts ...grpc.CallOption) (*ClerkCreateProductResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ClerkCreateProductResponse)
+	err := c.cc.Invoke(ctx, CatalogService_ClerkCreateProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) ClerkReadProduct(ctx context.Context, in *ClerkReadProductRequest, opts ...grpc.CallOption) (*ClerkReadProductResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ClerkReadProductResponse)
+	err := c.cc.Invoke(ctx, CatalogService_ClerkReadProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) ClerkUpdateProduct(ctx context.Context, in *ClerkUpdateProductRequest, opts ...grpc.CallOption) (*ClerkUpdateProductResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ClerkUpdateProductResponse)
+	err := c.cc.Invoke(ctx, CatalogService_ClerkUpdateProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) ClerkDeleteProduct(ctx context.Context, in *ClerkDeleteProductRequest, opts ...grpc.CallOption) (*ClerkDeleteProductResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ClerkDeleteProductResponse)
+	err := c.cc.Invoke(ctx, CatalogService_ClerkDeleteProduct_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -143,66 +190,6 @@ func (c *catalogServiceClient) ClerkDeleteGroup(ctx context.Context, in *ClerkDe
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ClerkDeleteGroupResponse)
 	err := c.cc.Invoke(ctx, CatalogService_ClerkDeleteGroup_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *catalogServiceClient) ListProducts(ctx context.Context, in *ListProductsRequest, opts ...grpc.CallOption) (*ListProductsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListProductsResponse)
-	err := c.cc.Invoke(ctx, CatalogService_ListProducts_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *catalogServiceClient) GetProduct(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*GetProductResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetProductResponse)
-	err := c.cc.Invoke(ctx, CatalogService_GetProduct_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *catalogServiceClient) CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*CreateProductResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateProductResponse)
-	err := c.cc.Invoke(ctx, CatalogService_CreateProduct_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *catalogServiceClient) UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateProductResponse)
-	err := c.cc.Invoke(ctx, CatalogService_UpdateProduct_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *catalogServiceClient) DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteProductResponse)
-	err := c.cc.Invoke(ctx, CatalogService_DeleteProduct_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *catalogServiceClient) GetBasicProductDetails(ctx context.Context, in *GetBasicProductDetailsRequest, opts ...grpc.CallOption) (*GetBasicProductDetailsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetBasicProductDetailsResponse)
-	err := c.cc.Invoke(ctx, CatalogService_GetBasicProductDetails_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -275,6 +262,16 @@ func (c *catalogServiceClient) GetProductBySupplier(ctx context.Context, in *Get
 type CatalogServiceServer interface {
 	// CustomerGetProduct returns a product for a customer
 	CustomerGetProduct(context.Context, *CustomerGetProductRequest) (*CustomerGetProductResponse, error)
+	// ClerkListProducts returns a List of products
+	ClerkListProducts(context.Context, *ClerkListProductsRequest) (*ClerkListProductsResponse, error)
+	// ClerkCreateProduct creates a product
+	ClerkCreateProduct(context.Context, *ClerkCreateProductRequest) (*ClerkCreateProductResponse, error)
+	// ClerkGetProduct returns a product
+	ClerkReadProduct(context.Context, *ClerkReadProductRequest) (*ClerkReadProductResponse, error)
+	// ClerkUpdateProduct updates a product
+	ClerkUpdateProduct(context.Context, *ClerkUpdateProductRequest) (*ClerkUpdateProductResponse, error)
+	// ClerkDeleteProduct deletes a product
+	ClerkDeleteProduct(context.Context, *ClerkDeleteProductRequest) (*ClerkDeleteProductResponse, error)
 	// ClerkListGroups returns a List of product groups
 	ClerkListGroups(context.Context, *ClerkListGroupRequest) (*ClerkListGroupResponse, error)
 	// ClerkCreateGroup creates a new product group
@@ -285,18 +282,6 @@ type CatalogServiceServer interface {
 	ClerkUpdateGroup(context.Context, *ClerkUpdateGroupRequest) (*ClerkUpdateGroupResponse, error)
 	// ClerkDeleteGroup deletes a product group
 	ClerkDeleteGroup(context.Context, *ClerkDeleteGroupRequest) (*ClerkDeleteGroupResponse, error)
-	// ListProducts returns a List of products
-	ListProducts(context.Context, *ListProductsRequest) (*ListProductsResponse, error)
-	// GetProduct returns a single product
-	GetProduct(context.Context, *GetProductRequest) (*GetProductResponse, error)
-	// CreateProduct creates a product
-	CreateProduct(context.Context, *CreateProductRequest) (*CreateProductResponse, error)
-	// UpdateProduct updates a product
-	UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error)
-	// DeleteProduct deletes a product
-	DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error)
-	// GetBasicProductDetails returns a List of basic product details
-	GetBasicProductDetails(context.Context, *GetBasicProductDetailsRequest) (*GetBasicProductDetailsResponse, error)
 	// ListSuppliers returns a List of suppliers for a product
 	ListSuppliers(context.Context, *ListSuppliersRequest) (*ListSuppliersResponse, error)
 	// GetSupplier returns the supplier of a product
@@ -318,6 +303,21 @@ type UnimplementedCatalogServiceServer struct {
 func (UnimplementedCatalogServiceServer) CustomerGetProduct(context.Context, *CustomerGetProductRequest) (*CustomerGetProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetProduct not implemented")
 }
+func (UnimplementedCatalogServiceServer) ClerkListProducts(context.Context, *ClerkListProductsRequest) (*ClerkListProductsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClerkListProducts not implemented")
+}
+func (UnimplementedCatalogServiceServer) ClerkCreateProduct(context.Context, *ClerkCreateProductRequest) (*ClerkCreateProductResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClerkCreateProduct not implemented")
+}
+func (UnimplementedCatalogServiceServer) ClerkReadProduct(context.Context, *ClerkReadProductRequest) (*ClerkReadProductResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClerkReadProduct not implemented")
+}
+func (UnimplementedCatalogServiceServer) ClerkUpdateProduct(context.Context, *ClerkUpdateProductRequest) (*ClerkUpdateProductResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClerkUpdateProduct not implemented")
+}
+func (UnimplementedCatalogServiceServer) ClerkDeleteProduct(context.Context, *ClerkDeleteProductRequest) (*ClerkDeleteProductResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClerkDeleteProduct not implemented")
+}
 func (UnimplementedCatalogServiceServer) ClerkListGroups(context.Context, *ClerkListGroupRequest) (*ClerkListGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ClerkListGroups not implemented")
 }
@@ -332,24 +332,6 @@ func (UnimplementedCatalogServiceServer) ClerkUpdateGroup(context.Context, *Cler
 }
 func (UnimplementedCatalogServiceServer) ClerkDeleteGroup(context.Context, *ClerkDeleteGroupRequest) (*ClerkDeleteGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ClerkDeleteGroup not implemented")
-}
-func (UnimplementedCatalogServiceServer) ListProducts(context.Context, *ListProductsRequest) (*ListProductsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListProducts not implemented")
-}
-func (UnimplementedCatalogServiceServer) GetProduct(context.Context, *GetProductRequest) (*GetProductResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetProduct not implemented")
-}
-func (UnimplementedCatalogServiceServer) CreateProduct(context.Context, *CreateProductRequest) (*CreateProductResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateProduct not implemented")
-}
-func (UnimplementedCatalogServiceServer) UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateProduct not implemented")
-}
-func (UnimplementedCatalogServiceServer) DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteProduct not implemented")
-}
-func (UnimplementedCatalogServiceServer) GetBasicProductDetails(context.Context, *GetBasicProductDetailsRequest) (*GetBasicProductDetailsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetBasicProductDetails not implemented")
 }
 func (UnimplementedCatalogServiceServer) ListSuppliers(context.Context, *ListSuppliersRequest) (*ListSuppliersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListSuppliers not implemented")
@@ -395,6 +377,96 @@ func _CatalogService_CustomerGetProduct_Handler(srv interface{}, ctx context.Con
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CatalogServiceServer).CustomerGetProduct(ctx, req.(*CustomerGetProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_ClerkListProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClerkListProductsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).ClerkListProducts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_ClerkListProducts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).ClerkListProducts(ctx, req.(*ClerkListProductsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_ClerkCreateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClerkCreateProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).ClerkCreateProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_ClerkCreateProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).ClerkCreateProduct(ctx, req.(*ClerkCreateProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_ClerkReadProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClerkReadProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).ClerkReadProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_ClerkReadProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).ClerkReadProduct(ctx, req.(*ClerkReadProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_ClerkUpdateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClerkUpdateProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).ClerkUpdateProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_ClerkUpdateProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).ClerkUpdateProduct(ctx, req.(*ClerkUpdateProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_ClerkDeleteProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClerkDeleteProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).ClerkDeleteProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_ClerkDeleteProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).ClerkDeleteProduct(ctx, req.(*ClerkDeleteProductRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -485,114 +557,6 @@ func _CatalogService_ClerkDeleteGroup_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CatalogServiceServer).ClerkDeleteGroup(ctx, req.(*ClerkDeleteGroupRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _CatalogService_ListProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListProductsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CatalogServiceServer).ListProducts(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CatalogService_ListProducts_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatalogServiceServer).ListProducts(ctx, req.(*ListProductsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _CatalogService_GetProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetProductRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CatalogServiceServer).GetProduct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CatalogService_GetProduct_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatalogServiceServer).GetProduct(ctx, req.(*GetProductRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _CatalogService_CreateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateProductRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CatalogServiceServer).CreateProduct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CatalogService_CreateProduct_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatalogServiceServer).CreateProduct(ctx, req.(*CreateProductRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _CatalogService_UpdateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateProductRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CatalogServiceServer).UpdateProduct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CatalogService_UpdateProduct_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatalogServiceServer).UpdateProduct(ctx, req.(*UpdateProductRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _CatalogService_DeleteProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteProductRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CatalogServiceServer).DeleteProduct(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CatalogService_DeleteProduct_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatalogServiceServer).DeleteProduct(ctx, req.(*DeleteProductRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _CatalogService_GetBasicProductDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetBasicProductDetailsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CatalogServiceServer).GetBasicProductDetails(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CatalogService_GetBasicProductDetails_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatalogServiceServer).GetBasicProductDetails(ctx, req.(*GetBasicProductDetailsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -717,6 +681,26 @@ var CatalogService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CatalogService_CustomerGetProduct_Handler,
 		},
 		{
+			MethodName: "ClerkListProducts",
+			Handler:    _CatalogService_ClerkListProducts_Handler,
+		},
+		{
+			MethodName: "ClerkCreateProduct",
+			Handler:    _CatalogService_ClerkCreateProduct_Handler,
+		},
+		{
+			MethodName: "ClerkReadProduct",
+			Handler:    _CatalogService_ClerkReadProduct_Handler,
+		},
+		{
+			MethodName: "ClerkUpdateProduct",
+			Handler:    _CatalogService_ClerkUpdateProduct_Handler,
+		},
+		{
+			MethodName: "ClerkDeleteProduct",
+			Handler:    _CatalogService_ClerkDeleteProduct_Handler,
+		},
+		{
 			MethodName: "ClerkListGroups",
 			Handler:    _CatalogService_ClerkListGroups_Handler,
 		},
@@ -735,30 +719,6 @@ var CatalogService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ClerkDeleteGroup",
 			Handler:    _CatalogService_ClerkDeleteGroup_Handler,
-		},
-		{
-			MethodName: "ListProducts",
-			Handler:    _CatalogService_ListProducts_Handler,
-		},
-		{
-			MethodName: "GetProduct",
-			Handler:    _CatalogService_GetProduct_Handler,
-		},
-		{
-			MethodName: "CreateProduct",
-			Handler:    _CatalogService_CreateProduct_Handler,
-		},
-		{
-			MethodName: "UpdateProduct",
-			Handler:    _CatalogService_UpdateProduct_Handler,
-		},
-		{
-			MethodName: "DeleteProduct",
-			Handler:    _CatalogService_DeleteProduct_Handler,
-		},
-		{
-			MethodName: "GetBasicProductDetails",
-			Handler:    _CatalogService_GetBasicProductDetails_Handler,
 		},
 		{
 			MethodName: "ListSuppliers",

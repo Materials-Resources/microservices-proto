@@ -1,8 +1,8 @@
 syntax = 'proto3';
 
-import "google/protobuf/timestamp.proto";
-
 package order.v1;
+
+import "google/protobuf/timestamp.proto";
 
 option go_package = "golang/order";
 
@@ -10,15 +10,13 @@ message Order {
   enum Status {
     STATUS_UNSPECIFIED = 0;
     STATUS_APPROVED = 1;
-    STATUS_COMPLETED= 2;
+    STATUS_COMPLETED = 2;
     STATUS_CANCELLED = 3;
   }
   string id = 1;
   Status status = 2;
   google.protobuf.Timestamp date_placed = 3;
   string purchase_order = 4;
-
-
 }
 message OrderItem {
   string id = 1;
@@ -66,7 +64,6 @@ message CustomerContact {
   string title = 6;
 }
 
-
 message BasicOrder {
   string id = 1;
   string status = 2;
@@ -88,7 +85,6 @@ message OrderDetails {
   string delivery_instructions = 8;
 }
 
-
 message PageMetadata {
   int32 prev_cursor = 1;
   int32 next_cursor = 2;
@@ -104,7 +100,6 @@ message Filters {
   PageDirection direction = 2;
 }
 service OrderService {
-
   // ClerkGetOrder returns the order details for a given order id
   rpc ClerkGetOrder(ClerkGetOrderRequest) returns (ClerkGetOrderResponse);
   // ClerkCreateOrder creates a new order
@@ -115,7 +110,6 @@ service OrderService {
   rpc ClerkGetShipment(ClerkGetShipmentRequest) returns (ClerkGetShipmentResponse);
   // ClerkGetShipmentsForOrder returns a list of shipment transactions for a given order id
   rpc ClerkGetShipmentsForOrder(ClerkGetShipmentsForOrderRequest) returns (ClerkGetShipmentsForOrderResponse);
-
 
   // CustomerGetOrder returns the order details for a given order
   rpc CustomerGetOrder(CustomerGetOrderRequest) returns (CustomerGetOrderResponse);
@@ -151,23 +145,18 @@ message CustomerGetOrderResponse {
 
   string delivery_instructions = 12;
 
-
   google.protobuf.Timestamp date_placed = 13;
 
   string taker = 14;
-
 
   string customer_id = 15;
   string customer_name = 16;
   string contact_id = 17;
   string contact_name = 18;
-
-
 }
 
 message CustomerGetQuoteRequest {}
-message CustomerGetQuoteResponse {
-}
+message CustomerGetQuoteResponse {}
 
 message CustomerGetShipmentsForOrderRequest {
   string order_id = 1;
@@ -177,22 +166,17 @@ message CustomerGetShipmentsForOrderResponse {
   repeated Shipment shipments = 1;
 }
 
-
 message ClerkCreateOrderRequest {}
 message ClerkCreateOrderResponse {}
-
-
 
 message ClerkGetOrderRequest {
   string id = 1;
 }
 
 message ClerkGetOrderResponse {
-
   message Item {
     OrderItem base = 1;
   }
-
 
   string id = 1;
   repeated Item items = 2;
@@ -208,7 +192,6 @@ message ClerkGetOrderResponse {
   string purchase_order = 13;
 
   google.protobuf.Timestamp date_placed = 14;
-
 }
 
 message ClerkCreateQuoteRequest {
@@ -223,7 +206,7 @@ message ClerkCreateQuoteRequest {
   // Deprecated: customer_id is pulled from the customer_branch_id
   double customer_id = 2 [deprecated = true];
   // Deprecated: use company_branch_id
-  double shipping_address_id= 3 [deprecated = true ];
+  double shipping_address_id = 3 [deprecated = true];
   // customer accounts contact_id
   string contact_id = 4;
   // date the customer requested the quote to be completed
@@ -234,11 +217,10 @@ message ClerkCreateQuoteRequest {
   string delivery_instructions = 7;
   // customer generated purchase order number for this quote
   string purchase_order = 8;
-
 }
 message ClerkCreateQuoteResponse {
   // id of the created quote
-  string id =1;
+  string id = 1;
 }
 
 message ClerkGetShipmentRequest {

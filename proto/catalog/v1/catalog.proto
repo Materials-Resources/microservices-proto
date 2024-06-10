@@ -1,8 +1,8 @@
 syntax = 'proto3';
 
-import "google/protobuf/field_mask.proto";
-
 package catalog.v1;
+
+import "google/protobuf/field_mask.proto";
 
 option go_package = "golang/catalog";
 
@@ -18,18 +18,17 @@ message ValidationError {
 }
 
 message Cursor {
-  int64 select = 1;
-  int64 size = 2;
+  oneof direction {
+    int64 select_previous = 1; // select previous items using cursor value
+    int64 select_next = 2; // select next items using cursor value
+  }
+  int64 size = 3; // Number of items to return
 }
 
-message ProductDetail {
-  string uid = 7;
-  int32 id = 1[deprecated=true];
-  string sn = 2;
-  string name = 3;
-  string description = 4;
-  double stock_qty = 5;
-  string product_group_sn = 6;
+message CursorMetadata {
+  int64 previous_cursor = 1; // Cursor value for previous items
+  int64 next_cursor = 2; // Cursor value for next items
+  int64 total = 3; // Total number of items
 }
 
 message ProductSupplier {
@@ -62,6 +61,17 @@ service CatalogService {
   // CustomerGetProduct returns a product for a customer
   rpc CustomerGetProduct(CustomerGetProductRequest) returns (CustomerGetProductResponse);
 
+  // ClerkListProducts returns a List of products
+  rpc ClerkListProducts(ClerkListProductsRequest) returns (ClerkListProductsResponse);
+  // ClerkCreateProduct creates a product
+  rpc ClerkCreateProduct(ClerkCreateProductRequest) returns (ClerkCreateProductResponse);
+  // ClerkGetProduct returns a product
+  rpc ClerkReadProduct(ClerkReadProductRequest) returns (ClerkReadProductResponse);
+  // ClerkUpdateProduct updates a product
+  rpc ClerkUpdateProduct(ClerkUpdateProductRequest) returns (ClerkUpdateProductResponse);
+  // ClerkDeleteProduct deletes a product
+  rpc ClerkDeleteProduct(ClerkDeleteProductRequest) returns (ClerkDeleteProductResponse);
+
   // ClerkListGroups returns a List of product groups
   rpc ClerkListGroups(ClerkListGroupRequest) returns (ClerkListGroupResponse);
   // ClerkCreateGroup creates a new product group
@@ -72,20 +82,6 @@ service CatalogService {
   rpc ClerkUpdateGroup(ClerkUpdateGroupRequest) returns (ClerkUpdateGroupResponse);
   // ClerkDeleteGroup deletes a product group
   rpc ClerkDeleteGroup(ClerkDeleteGroupRequest) returns (ClerkDeleteGroupResponse);
-
-
-  // ListProducts returns a List of products
-  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
-  // GetProduct returns a single product
-  rpc GetProduct(GetProductRequest) returns (GetProductResponse);
-  // CreateProduct creates a product
-  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
-  // UpdateProduct updates a product
-  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
-  // DeleteProduct deletes a product
-  rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
-  // GetBasicProductDetails returns a List of basic product details
-  rpc GetBasicProductDetails(GetBasicProductDetailsRequest) returns (GetBasicProductDetailsResponse);
 
   // ListSuppliers returns a List of suppliers for a product
   rpc ListSuppliers(ListSuppliersRequest) returns (ListSuppliersResponse);
@@ -98,132 +94,21 @@ service CatalogService {
   // SetPrimarySupplier sets the primary supplier for a product
   rpc SetPrimarySupplier(SetPrimarySupplierRequest) returns (SetPrimarySupplierResponse);
 
-
   // GetProductBySupplier returns a product by supplier identifiers
   rpc GetProductBySupplier(GetProductBySupplierRequest) returns (GetProductBySupplierResponse);
-
-
 }
-
-message ClerkListGroupRequest {}
-message ClerkListGroupResponse {
-  repeated ProductGroup product_groups = 1;
-}
-message ClerkCreateGroupRequest {
-  string sn = 1;
-  string name = 2;
-}
-
-message ClerkCreateGroupResponse {
-  repeated ValidationError validation_errors = 1;
-}
-
-message ClerkReadGroupRequest {
-  string sn = 1;
-}
-message ClerkReadGroupResponse {
-  ProductGroup product_group = 1;
-}
-
-message ClerkUpdateGroupRequest {
-  message ProductGroup {
-    google.protobuf.FieldMask update_mask = 1;
-    string name = 2;
-  }
-  string sn = 1;
-  ProductGroup product_group = 2;
-
-}
-
-message ClerkUpdateGroupResponse {
-  repeated ValidationError validation_errors = 1;
-}
-
-message ClerkDeleteGroupRequest {
-  string sn = 1;
-  DeleteMode delete_mode = 2;
-}
-message ClerkDeleteGroupResponse {}
-
 
 message GetSupplierRequest {
   string product_id = 1;
   string supplier_id = 2;
 }
 
-message ListProductsRequest {
-  int32 cursor = 1;
-}
-message ListProductsResponse {
-  repeated ProductDetail products = 1;
-  int32 next_cursor = 2;
-}
-
-message GetProductRequest {
-  int32 id = 1 [deprecated=true];
-  string uid = 2;
-}
-message GetProductResponse {
-  ProductDetail product = 1 [deprecated=true];
-  string uid = 2;
-  string sn = 3;
-  string name = 4;
-  string description = 5;
-  string product_group_id = 6;
-  string product_group_name = 7;
-}
-
-
-message CreateProductRequest {
-  string id = 1;
-  string description = 2;
-  string extended_description = 3;
-  float list_price = 4;
-  string product_group_id = 8;
-  string upc = 9;
-  string supplier_id = 10;
-  string supplier_part_no = 11;
-  float cost = 12;
-}
-message CreateProductResponse {
-  repeated ValidationError validation_errors = 1;
-}
-
-
-message UpdateProductRequest {
-  ProductDetail product = 1;
-}
-message UpdateProductResponse {}
-
-message DeleteProductRequest {
-  int32 uid = 1;
-}
-message DeleteProductResponse {
-
-}
-
-message GetBasicProductDetailsRequest{
-  repeated int32 product_uid = 1;
-}
-message GetBasicProductDetailsResponse {
-  message BasicProductDetail {
-    int32 product_uid = 1[deprecated=true];
-    string uid = 5;
-    string sn = 2;
-    string name = 3;
-    string description = 4;
-  }
-  repeated BasicProductDetail basic_product_details = 1;
-}
-
-
 message ListSuppliersRequest {}
 message ListSuppliersResponse {
   repeated ProductSupplier product_suppliers = 1;
 }
 
-
-message GetSupplierResponse{
+message GetSupplierResponse {
   ProductSupplier product_supplier = 1;
 }
 
@@ -236,12 +121,10 @@ message CreateSupplierRequest {
 }
 message CreateSupplierResponse {}
 
-
 message UpdateSupplierRequest {
   ProductSupplier product_supplier = 1;
 
   google.protobuf.FieldMask update_mask = 2;
-
 }
 message UpdateSupplierResponse {}
 
@@ -252,7 +135,6 @@ message SetPrimarySupplierRequest {
   double division_id = 4;
 }
 message SetPrimarySupplierResponse {}
-
 
 message CreateProductGroupRequest {
   ProductGroup product_group = 1;
@@ -283,3 +165,78 @@ message CustomerGetProductRequest {
 message CustomerGetProductResponse {
   Product product = 1; // Common product details
 }
+
+message ClerkListProductsRequest {
+  message Filter {
+    repeated string product_group_sn = 1;
+  }
+  Filter filter = 1;
+  Cursor cursor = 2;
+}
+
+message ClerkListProductsResponse {
+  repeated Product products = 1;
+  CursorMetadata cursor_metadata = 2;
+}
+
+message ClerkCreateProductRequest {}
+
+message ClerkCreateProductResponse {}
+
+message ClerkReadProductRequest {
+  string product_uid = 1; // Unique identifier of product
+}
+
+message ClerkReadProductResponse {
+  Product product = 1; // Common product details
+}
+
+message ClerkUpdateProductRequest {}
+
+message ClerkUpdateProductResponse {}
+
+message ClerkDeleteProductRequest {
+  string product_uid = 1; // Unique identifier of product
+  DeleteMode delete_mode = 2;
+}
+
+message ClerkDeleteProductResponse {}
+
+message ClerkListGroupRequest {}
+message ClerkListGroupResponse {
+  repeated ProductGroup product_groups = 1;
+}
+message ClerkCreateGroupRequest {
+  string sn = 1;
+  string name = 2;
+}
+
+message ClerkCreateGroupResponse {
+  repeated ValidationError validation_errors = 1;
+}
+
+message ClerkReadGroupRequest {
+  string sn = 1;
+}
+message ClerkReadGroupResponse {
+  ProductGroup product_group = 1;
+}
+
+message ClerkUpdateGroupRequest {
+  message ProductGroup {
+    google.protobuf.FieldMask update_mask = 1;
+    string name = 2;
+  }
+  string sn = 1;
+  ProductGroup product_group = 2;
+}
+
+message ClerkUpdateGroupResponse {
+  repeated ValidationError validation_errors = 1;
+}
+
+message ClerkDeleteGroupRequest {
+  string sn = 1;
+  DeleteMode delete_mode = 2;
+}
+message ClerkDeleteGroupResponse {}
