@@ -111,10 +111,13 @@ service OrderService {
   // ClerkGetShipmentsForOrder returns a list of shipment transactions for a given order id
   rpc ClerkGetShipmentsForOrder(ClerkGetShipmentsForOrderRequest) returns (ClerkGetShipmentsForOrderResponse);
 
-  // CustomerGetOrder returns the order details for a given order
-  rpc CustomerGetOrder(CustomerGetOrderRequest) returns (CustomerGetOrderResponse);
   // CustomerGetQuote returns the quote details for a given quote
   rpc CustomerGetQuote(CustomerGetQuoteRequest) returns (CustomerGetQuoteResponse);
+  // CustomerCreateQuote creates a new quote
+  rpc CustomerCreateQuote(CustomerCreateQuoteRequest) returns (CustomerCreateQuoteResponse);
+
+  // CustomerGetOrder returns the order details for a given order
+  rpc CustomerGetOrder(CustomerGetOrderRequest) returns (CustomerGetOrderResponse);
   // CustomerListOrders returns a list of orders for a given customer
   rpc CustomerListOrders(CustomerListOrdersRequest) returns (CustomerListOrdersResponse);
   // CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
@@ -157,6 +160,19 @@ message CustomerGetOrderResponse {
 
 message CustomerGetQuoteRequest {}
 message CustomerGetQuoteResponse {}
+
+message CustomerCreateQuoteRequest {
+  message QuoteItem {
+    string product_uid = 1;
+    double quantity_requested = 2;
+  }
+  repeated QuoteItem quote_items = 1;
+  string customer_branch_id = 2;
+  string date_requested_by = 3; // date the quote is requested by
+  string delivery_instructions = 4;
+  string purchase_order = 5;
+}
+message CustomerCreateQuoteResponse {}
 
 message CustomerGetShipmentsForOrderRequest {
   string order_id = 1;

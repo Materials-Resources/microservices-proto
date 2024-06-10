@@ -24,8 +24,9 @@ const (
 	OrderService_ClerkCreateQuote_FullMethodName             = "/order.v1.OrderService/ClerkCreateQuote"
 	OrderService_ClerkGetShipment_FullMethodName             = "/order.v1.OrderService/ClerkGetShipment"
 	OrderService_ClerkGetShipmentsForOrder_FullMethodName    = "/order.v1.OrderService/ClerkGetShipmentsForOrder"
-	OrderService_CustomerGetOrder_FullMethodName             = "/order.v1.OrderService/CustomerGetOrder"
 	OrderService_CustomerGetQuote_FullMethodName             = "/order.v1.OrderService/CustomerGetQuote"
+	OrderService_CustomerCreateQuote_FullMethodName          = "/order.v1.OrderService/CustomerCreateQuote"
+	OrderService_CustomerGetOrder_FullMethodName             = "/order.v1.OrderService/CustomerGetOrder"
 	OrderService_CustomerListOrders_FullMethodName           = "/order.v1.OrderService/CustomerListOrders"
 	OrderService_CustomerGetShipmentsForOrder_FullMethodName = "/order.v1.OrderService/CustomerGetShipmentsForOrder"
 )
@@ -44,10 +45,12 @@ type OrderServiceClient interface {
 	ClerkGetShipment(ctx context.Context, in *ClerkGetShipmentRequest, opts ...grpc.CallOption) (*ClerkGetShipmentResponse, error)
 	// ClerkGetShipmentsForOrder returns a list of shipment transactions for a given order id
 	ClerkGetShipmentsForOrder(ctx context.Context, in *ClerkGetShipmentsForOrderRequest, opts ...grpc.CallOption) (*ClerkGetShipmentsForOrderResponse, error)
-	// CustomerGetOrder returns the order details for a given order
-	CustomerGetOrder(ctx context.Context, in *CustomerGetOrderRequest, opts ...grpc.CallOption) (*CustomerGetOrderResponse, error)
 	// CustomerGetQuote returns the quote details for a given quote
 	CustomerGetQuote(ctx context.Context, in *CustomerGetQuoteRequest, opts ...grpc.CallOption) (*CustomerGetQuoteResponse, error)
+	// CustomerCreateQuote creates a new quote
+	CustomerCreateQuote(ctx context.Context, in *CustomerCreateQuoteRequest, opts ...grpc.CallOption) (*CustomerCreateQuoteResponse, error)
+	// CustomerGetOrder returns the order details for a given order
+	CustomerGetOrder(ctx context.Context, in *CustomerGetOrderRequest, opts ...grpc.CallOption) (*CustomerGetOrderResponse, error)
 	// CustomerListOrders returns a list of orders for a given customer
 	CustomerListOrders(ctx context.Context, in *CustomerListOrdersRequest, opts ...grpc.CallOption) (*CustomerListOrdersResponse, error)
 	// CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
@@ -112,20 +115,30 @@ func (c *orderServiceClient) ClerkGetShipmentsForOrder(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *orderServiceClient) CustomerGetOrder(ctx context.Context, in *CustomerGetOrderRequest, opts ...grpc.CallOption) (*CustomerGetOrderResponse, error) {
+func (c *orderServiceClient) CustomerGetQuote(ctx context.Context, in *CustomerGetQuoteRequest, opts ...grpc.CallOption) (*CustomerGetQuoteResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CustomerGetOrderResponse)
-	err := c.cc.Invoke(ctx, OrderService_CustomerGetOrder_FullMethodName, in, out, cOpts...)
+	out := new(CustomerGetQuoteResponse)
+	err := c.cc.Invoke(ctx, OrderService_CustomerGetQuote_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *orderServiceClient) CustomerGetQuote(ctx context.Context, in *CustomerGetQuoteRequest, opts ...grpc.CallOption) (*CustomerGetQuoteResponse, error) {
+func (c *orderServiceClient) CustomerCreateQuote(ctx context.Context, in *CustomerCreateQuoteRequest, opts ...grpc.CallOption) (*CustomerCreateQuoteResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CustomerGetQuoteResponse)
-	err := c.cc.Invoke(ctx, OrderService_CustomerGetQuote_FullMethodName, in, out, cOpts...)
+	out := new(CustomerCreateQuoteResponse)
+	err := c.cc.Invoke(ctx, OrderService_CustomerCreateQuote_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) CustomerGetOrder(ctx context.Context, in *CustomerGetOrderRequest, opts ...grpc.CallOption) (*CustomerGetOrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CustomerGetOrderResponse)
+	err := c.cc.Invoke(ctx, OrderService_CustomerGetOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -166,10 +179,12 @@ type OrderServiceServer interface {
 	ClerkGetShipment(context.Context, *ClerkGetShipmentRequest) (*ClerkGetShipmentResponse, error)
 	// ClerkGetShipmentsForOrder returns a list of shipment transactions for a given order id
 	ClerkGetShipmentsForOrder(context.Context, *ClerkGetShipmentsForOrderRequest) (*ClerkGetShipmentsForOrderResponse, error)
-	// CustomerGetOrder returns the order details for a given order
-	CustomerGetOrder(context.Context, *CustomerGetOrderRequest) (*CustomerGetOrderResponse, error)
 	// CustomerGetQuote returns the quote details for a given quote
 	CustomerGetQuote(context.Context, *CustomerGetQuoteRequest) (*CustomerGetQuoteResponse, error)
+	// CustomerCreateQuote creates a new quote
+	CustomerCreateQuote(context.Context, *CustomerCreateQuoteRequest) (*CustomerCreateQuoteResponse, error)
+	// CustomerGetOrder returns the order details for a given order
+	CustomerGetOrder(context.Context, *CustomerGetOrderRequest) (*CustomerGetOrderResponse, error)
 	// CustomerListOrders returns a list of orders for a given customer
 	CustomerListOrders(context.Context, *CustomerListOrdersRequest) (*CustomerListOrdersResponse, error)
 	// CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
@@ -195,11 +210,14 @@ func (UnimplementedOrderServiceServer) ClerkGetShipment(context.Context, *ClerkG
 func (UnimplementedOrderServiceServer) ClerkGetShipmentsForOrder(context.Context, *ClerkGetShipmentsForOrderRequest) (*ClerkGetShipmentsForOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ClerkGetShipmentsForOrder not implemented")
 }
-func (UnimplementedOrderServiceServer) CustomerGetOrder(context.Context, *CustomerGetOrderRequest) (*CustomerGetOrderResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetOrder not implemented")
-}
 func (UnimplementedOrderServiceServer) CustomerGetQuote(context.Context, *CustomerGetQuoteRequest) (*CustomerGetQuoteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetQuote not implemented")
+}
+func (UnimplementedOrderServiceServer) CustomerCreateQuote(context.Context, *CustomerCreateQuoteRequest) (*CustomerCreateQuoteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerCreateQuote not implemented")
+}
+func (UnimplementedOrderServiceServer) CustomerGetOrder(context.Context, *CustomerGetOrderRequest) (*CustomerGetOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetOrder not implemented")
 }
 func (UnimplementedOrderServiceServer) CustomerListOrders(context.Context, *CustomerListOrdersRequest) (*CustomerListOrdersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerListOrders not implemented")
@@ -309,24 +327,6 @@ func _OrderService_ClerkGetShipmentsForOrder_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrderService_CustomerGetOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CustomerGetOrderRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrderServiceServer).CustomerGetOrder(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrderService_CustomerGetOrder_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).CustomerGetOrder(ctx, req.(*CustomerGetOrderRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _OrderService_CustomerGetQuote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CustomerGetQuoteRequest)
 	if err := dec(in); err != nil {
@@ -341,6 +341,42 @@ func _OrderService_CustomerGetQuote_Handler(srv interface{}, ctx context.Context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrderServiceServer).CustomerGetQuote(ctx, req.(*CustomerGetQuoteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_CustomerCreateQuote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CustomerCreateQuoteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).CustomerCreateQuote(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrderService_CustomerCreateQuote_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).CustomerCreateQuote(ctx, req.(*CustomerCreateQuoteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_CustomerGetOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CustomerGetOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).CustomerGetOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrderService_CustomerGetOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).CustomerGetOrder(ctx, req.(*CustomerGetOrderRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -409,12 +445,16 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrderService_ClerkGetShipmentsForOrder_Handler,
 		},
 		{
-			MethodName: "CustomerGetOrder",
-			Handler:    _OrderService_CustomerGetOrder_Handler,
-		},
-		{
 			MethodName: "CustomerGetQuote",
 			Handler:    _OrderService_CustomerGetQuote_Handler,
+		},
+		{
+			MethodName: "CustomerCreateQuote",
+			Handler:    _OrderService_CustomerCreateQuote_Handler,
+		},
+		{
+			MethodName: "CustomerGetOrder",
+			Handler:    _OrderService_CustomerGetOrder_Handler,
 		},
 		{
 			MethodName: "CustomerListOrders",

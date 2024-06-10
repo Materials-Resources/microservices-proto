@@ -46,6 +46,7 @@ message Product {
   string name = 3;
   string description = 4;
   string product_group_sn = 5;
+  string product_group_name = 6;
 }
 
 message ProductGroup {
