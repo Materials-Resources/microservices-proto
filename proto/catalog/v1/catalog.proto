@@ -45,7 +45,7 @@ message Product {
   string sn = 2;
   string name = 3;
   string description = 4;
-  string product_group_id = 5;
+  string product_group_sn = 5;
 }
 
 message ProductGroup {
@@ -191,7 +191,17 @@ message ClerkReadProductResponse {
   Product product = 1; // Common product details
 }
 
-message ClerkUpdateProductRequest {}
+message ClerkUpdateProductRequest {
+  message Product {
+    google.protobuf.FieldMask update_mask = 1;
+    string sn = 2;
+    string name = 3;
+    string description = 4;
+    string product_group_sn = 5;
+  }
+  string product_uid = 1; // Unique identifier of product
+  Product product = 2;
+}
 
 message ClerkUpdateProductResponse {}
 
