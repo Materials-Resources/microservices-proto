@@ -122,6 +122,8 @@ service OrderService {
   rpc CustomerListOrders(CustomerListOrdersRequest) returns (CustomerListOrdersResponse);
   // CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
   rpc CustomerGetShipmentsForOrder(CustomerGetShipmentsForOrderRequest) returns (CustomerGetShipmentsForOrderResponse);
+
+  rpc CustomerGetShipment(CustomerGetShipmentRequest) returns (CustomerGetShipmentResponse);
 }
 
 message CustomerGetOrderRequest {
@@ -271,4 +273,25 @@ message ClerkGetShipmentsForOrderRequest {
 }
 message ClerkGetShipmentsForOrderResponse {
   repeated Shipment shipments = 1;
+}
+
+message CustomerGetShipmentRequest {
+  string id = 1;
+}
+
+message CustomerGetShipmentResponse {
+  Shipment base_shipment = 1;
+  string order_id = 2;
+  string order_purchase_order = 3;
+  string shipping_address_id = 4;
+  string shipping_address_name = 5;
+  string shipping_address_line_one = 6;
+  string shipping_address_line_two = 7;
+  string shipping_address_city = 8;
+  string shipping_address_state = 9;
+  string shipping_address_postal_code = 10;
+  string shipping_address_country = 11;
+  string delivery_instructions = 12;
+  string contact_id = 13;
+  string contact_name = 14;
 }

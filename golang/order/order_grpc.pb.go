@@ -29,6 +29,7 @@ const (
 	OrderService_CustomerGetOrder_FullMethodName             = "/order.v1.OrderService/CustomerGetOrder"
 	OrderService_CustomerListOrders_FullMethodName           = "/order.v1.OrderService/CustomerListOrders"
 	OrderService_CustomerGetShipmentsForOrder_FullMethodName = "/order.v1.OrderService/CustomerGetShipmentsForOrder"
+	OrderService_CustomerGetShipment_FullMethodName          = "/order.v1.OrderService/CustomerGetShipment"
 )
 
 // OrderServiceClient is the client API for OrderService service.
@@ -55,6 +56,7 @@ type OrderServiceClient interface {
 	CustomerListOrders(ctx context.Context, in *CustomerListOrdersRequest, opts ...grpc.CallOption) (*CustomerListOrdersResponse, error)
 	// CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
 	CustomerGetShipmentsForOrder(ctx context.Context, in *CustomerGetShipmentsForOrderRequest, opts ...grpc.CallOption) (*CustomerGetShipmentsForOrderResponse, error)
+	CustomerGetShipment(ctx context.Context, in *CustomerGetShipmentRequest, opts ...grpc.CallOption) (*CustomerGetShipmentResponse, error)
 }
 
 type orderServiceClient struct {
@@ -165,6 +167,16 @@ func (c *orderServiceClient) CustomerGetShipmentsForOrder(ctx context.Context, i
 	return out, nil
 }
 
+func (c *orderServiceClient) CustomerGetShipment(ctx context.Context, in *CustomerGetShipmentRequest, opts ...grpc.CallOption) (*CustomerGetShipmentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CustomerGetShipmentResponse)
+	err := c.cc.Invoke(ctx, OrderService_CustomerGetShipment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServiceServer is the server API for OrderService service.
 // All implementations should embed UnimplementedOrderServiceServer
 // for forward compatibility
@@ -189,6 +201,7 @@ type OrderServiceServer interface {
 	CustomerListOrders(context.Context, *CustomerListOrdersRequest) (*CustomerListOrdersResponse, error)
 	// CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
 	CustomerGetShipmentsForOrder(context.Context, *CustomerGetShipmentsForOrderRequest) (*CustomerGetShipmentsForOrderResponse, error)
+	CustomerGetShipment(context.Context, *CustomerGetShipmentRequest) (*CustomerGetShipmentResponse, error)
 }
 
 // UnimplementedOrderServiceServer should be embedded to have forward compatible implementations.
@@ -224,6 +237,9 @@ func (UnimplementedOrderServiceServer) CustomerListOrders(context.Context, *Cust
 }
 func (UnimplementedOrderServiceServer) CustomerGetShipmentsForOrder(context.Context, *CustomerGetShipmentsForOrderRequest) (*CustomerGetShipmentsForOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetShipmentsForOrder not implemented")
+}
+func (UnimplementedOrderServiceServer) CustomerGetShipment(context.Context, *CustomerGetShipmentRequest) (*CustomerGetShipmentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomerGetShipment not implemented")
 }
 
 // UnsafeOrderServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -417,6 +433,24 @@ func _OrderService_CustomerGetShipmentsForOrder_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderService_CustomerGetShipment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CustomerGetShipmentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).CustomerGetShipment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrderService_CustomerGetShipment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).CustomerGetShipment(ctx, req.(*CustomerGetShipmentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderService_ServiceDesc is the grpc.ServiceDesc for OrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -463,6 +497,10 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CustomerGetShipmentsForOrder",
 			Handler:    _OrderService_CustomerGetShipmentsForOrder_Handler,
+		},
+		{
+			MethodName: "CustomerGetShipment",
+			Handler:    _OrderService_CustomerGetShipment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1,0 +1,83 @@
+syntax = 'proto3';
+
+package search.v1;
+
+option go_package = "golang/search";
+
+message PageMetadata {
+  int32 total_records = 1;
+  int32 current_page = 2;
+  int32 total_pages = 3;
+  repeated Facet facets = 4;
+}
+
+message FacetValue {
+  int32 count = 1;
+  string value = 2;
+}
+message Facet {
+  string name = 1;
+  repeated FacetValue facet_values = 2;
+}
+
+
+
+message Product {
+  string id = 1;
+  string sn = 2;
+  string name = 3;
+  string description = 4;
+  string product_group_id = 5;
+  double list_price = 6;
+}
+
+service SearchService {
+  // SearchProducts returns a list of products based on the search query and filters
+  rpc SearchProducts(SearchProductsRequest) returns (SearchProductsResponse);
+  // AddProduct indexes a new product to the search engine
+  rpc AddProduct(AddProductRequest) returns (AddProductResponse);
+}
+
+message SearchProductsRequest {
+  string query = 1;
+  int32 page = 2;
+  int32 per_page = 3;
+  string sort_by = 4;
+  string filter_by = 5;
+}
+
+message SearchProductsResponse {
+  repeated Product products = 1;
+  PageMetadata page_metadata = 2;
+}
+
+
+message ProductResult {
+  int32 uid = 1;
+  string name = 2;
+  string description = 3;
+  string sn = 4;
+  string product_group_id = 5;
+}
+message ProductDocument {
+  int32 uid = 1;
+  string name = 2;
+  string description = 3;
+  string sn = 4;
+  string product_group_id = 5;
+  float stock = 6;
+  float price = 7;
+}
+
+message SearchResponse {
+  repeated ProductDocument products = 1;
+  PageMetadata page_metadata = 2;
+}
+
+message AddProductRequest {
+  repeated ProductDocument products = 1;
+}
+
+message AddProductResponse {
+  int32 success = 1;
+}

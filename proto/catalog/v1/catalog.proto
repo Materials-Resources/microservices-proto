@@ -169,14 +169,26 @@ message CustomerGetProductResponse {
 
 message ClerkListProductsRequest {
   message Filter {
+    enum DeleteFilter {
+      DELETE_FILTER_UNSPECIFIED = 0;
+      DELETE_FILTER_ALL = 1;
+      DELETE_FILTER_ACTIVE = 2;
+      DELETE_FILTER_DELETED = 3;
+    }
     repeated string product_group_sn = 1;
+    DeleteFilter delete_status = 2;
+
   }
   Filter filter = 1;
   Cursor cursor = 2;
 }
 
 message ClerkListProductsResponse {
-  repeated Product products = 1;
+  message ProductDetails {
+    Product product = 1;
+    float stock_quantity = 2;
+  }
+  repeated ProductDetails products = 1;
   CursorMetadata cursor_metadata = 2;
 }
 
