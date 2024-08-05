@@ -59,30 +59,29 @@ message ProductFilter {
 }
 
 service CatalogService {
-  // CustomerGetProduct returns a product for a customer
-  rpc CustomerGetProduct(CustomerGetProductRequest) returns (CustomerGetProductResponse);
 
-  // ClerkListProducts returns a List of products
-  rpc ClerkListProducts(ClerkListProductsRequest) returns (ClerkListProductsResponse);
-  // ClerkCreateProduct creates a product
-  rpc ClerkCreateProduct(ClerkCreateProductRequest) returns (ClerkCreateProductResponse);
-  // ClerkGetProduct returns a product
-  rpc ClerkReadProduct(ClerkReadProductRequest) returns (ClerkReadProductResponse);
-  // ClerkUpdateProduct updates a product
-  rpc ClerkUpdateProduct(ClerkUpdateProductRequest) returns (ClerkUpdateProductResponse);
-  // ClerkDeleteProduct deletes a product
-  rpc ClerkDeleteProduct(ClerkDeleteProductRequest) returns (ClerkDeleteProductResponse);
 
-  // ClerkListGroups returns a List of product groups
-  rpc ClerkListGroups(ClerkListGroupRequest) returns (ClerkListGroupResponse);
-  // ClerkCreateGroup creates a new product group
-  rpc ClerkCreateGroup(ClerkCreateGroupRequest) returns (ClerkCreateGroupResponse);
-  // ClerkReadGroup returns a product group with products
-  rpc ClerkReadGroup(ClerkReadGroupRequest) returns (ClerkReadGroupResponse);
-  // ClerkUpdateGroup updates a product group
-  rpc ClerkUpdateGroup(ClerkUpdateGroupRequest) returns (ClerkUpdateGroupResponse);
-  // ClerkDeleteGroup deletes a product group
-  rpc ClerkDeleteGroup(ClerkDeleteGroupRequest) returns (ClerkDeleteGroupResponse);
+  // ListProducts returns a List of products
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
+  // CreateProduct creates a product
+  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
+  // GetProduct returns a product
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse);
+  // UpdateProduct updates a product
+  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
+  // DeleteProduct deletes a product
+  rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
+
+  // ListGroups returns a List of product groups
+  rpc ListGroups(ListGroupRequest) returns (ListGroupResponse);
+  // CreateGroup creates a new product group
+  rpc CreateGroup(CreateGroupRequest) returns (CreateGroupResponse);
+  // ReadGroup returns a product group with products
+  rpc ReadGroup(ReadGroupRequest) returns (ReadGroupResponse);
+  // UpdateGroup updates a product group
+  rpc UpdateGroup(UpdateGroupRequest) returns (UpdateGroupResponse);
+  // DeleteGroup deletes a product group
+  rpc DeleteGroup(DeleteGroupRequest) returns (DeleteGroupResponse);
 
   // ListSuppliers returns a List of suppliers for a product
   rpc ListSuppliers(ListSuppliersRequest) returns (ListSuppliersResponse);
@@ -159,15 +158,15 @@ message GetProductBySupplierResponse {
   string sn = 1;
 }
 
-message CustomerGetProductRequest {
+message GetProductRequest {
   string product_uid = 1; // Unique identifier of product
 }
 
-message CustomerGetProductResponse {
+message GetProductResponse {
   Product product = 1; // Common product details
 }
 
-message ClerkListProductsRequest {
+message ListProductsRequest {
   message Filter {
     enum DeleteFilter {
       DELETE_FILTER_UNSPECIFIED = 0;
@@ -183,7 +182,7 @@ message ClerkListProductsRequest {
   Cursor cursor = 2;
 }
 
-message ClerkListProductsResponse {
+message ListProductsResponse {
   message ProductDetails {
     Product product = 1;
     float stock_quantity = 2;
@@ -192,9 +191,9 @@ message ClerkListProductsResponse {
   CursorMetadata cursor_metadata = 2;
 }
 
-message ClerkCreateProductRequest {}
+message CreateProductRequest {}
 
-message ClerkCreateProductResponse {}
+message CreateProductResponse {}
 
 message ClerkReadProductRequest {
   string product_uid = 1; // Unique identifier of product
@@ -204,7 +203,7 @@ message ClerkReadProductResponse {
   Product product = 1; // Common product details
 }
 
-message ClerkUpdateProductRequest {
+message UpdateProductRequest {
   message Product {
     google.protobuf.FieldMask update_mask = 1;
     string sn = 2;
@@ -216,36 +215,36 @@ message ClerkUpdateProductRequest {
   Product product = 2;
 }
 
-message ClerkUpdateProductResponse {}
+message UpdateProductResponse {}
 
-message ClerkDeleteProductRequest {
+message DeleteProductRequest {
   string product_uid = 1; // Unique identifier of product
   DeleteMode delete_mode = 2;
 }
 
-message ClerkDeleteProductResponse {}
+message DeleteProductResponse {}
 
-message ClerkListGroupRequest {}
-message ClerkListGroupResponse {
+message ListGroupRequest {}
+message ListGroupResponse {
   repeated ProductGroup product_groups = 1;
 }
-message ClerkCreateGroupRequest {
+message CreateGroupRequest {
   string sn = 1;
   string name = 2;
 }
 
-message ClerkCreateGroupResponse {
+message CreateGroupResponse {
   repeated ValidationError validation_errors = 1;
 }
 
-message ClerkReadGroupRequest {
+message ReadGroupRequest {
   string sn = 1;
 }
-message ClerkReadGroupResponse {
+message ReadGroupResponse {
   ProductGroup product_group = 1;
 }
 
-message ClerkUpdateGroupRequest {
+message UpdateGroupRequest {
   message ProductGroup {
     google.protobuf.FieldMask update_mask = 1;
     string name = 2;
@@ -254,12 +253,12 @@ message ClerkUpdateGroupRequest {
   ProductGroup product_group = 2;
 }
 
-message ClerkUpdateGroupResponse {
+message UpdateGroupResponse {
   repeated ValidationError validation_errors = 1;
 }
 
-message ClerkDeleteGroupRequest {
+message DeleteGroupRequest {
   string sn = 1;
   DeleteMode delete_mode = 2;
 }
-message ClerkDeleteGroupResponse {}
+message DeleteGroupResponse {}
