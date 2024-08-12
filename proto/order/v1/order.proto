@@ -120,7 +120,7 @@ message GetOrderRequest {
 }
 
 message GetOrderResponse {
-  OrderDetails order_details = 1;
+  Order order = 1;
   OrderItem order_items = 2;
 }
 
