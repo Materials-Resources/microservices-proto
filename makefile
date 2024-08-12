@@ -38,9 +38,8 @@ commit:
 
 tag:
 	git tag -f golang/$(SERVICE_NAME)/$(RELEASE_VERSION) \
-    		$(shell git subtree split --prefix golang/$(SERVICE_NAME) HEAD) \
     		-m "golang/$(SERVICE_NAME)/$(RELEASE_VERSION)"
 
 push:
-	git push origin golang/$(SERVICE_NAME)/$(RELEASE_VERSION)
+	git push origin refs/tags/golang/$(SERVICE_NAME)/$(RELEASE_VERSION)
 
