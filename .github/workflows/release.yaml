@@ -22,5 +22,8 @@ jobs:
           setup_only: true
       - name: Get Release Version
         run: echo "RELEASE_VERSION=$(echo ${{ github.ref }} | cut -d '/' -f 3)" >> $GITHUB_ENV
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Run make all
         run: make SERVICE_NAME=${{ matrix.service }} RELEASE_VERSION=${{ env.RELEASE_VERSION }} all
