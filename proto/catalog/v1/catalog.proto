@@ -77,7 +77,7 @@ service CatalogService {
   // CreateGroup creates a new product group
   rpc CreateGroup(CreateGroupRequest) returns (CreateGroupResponse);
   // ReadGroup returns a product group with products
-  rpc ReadGroup(ReadGroupRequest) returns (ReadGroupResponse);
+  rpc GetGroup(GetGroupRequest) returns (GetGroupResponse);
   // UpdateGroup updates a product group
   rpc UpdateGroup(UpdateGroupRequest) returns (UpdateGroupResponse);
   // DeleteGroup deletes a product group
@@ -237,10 +237,10 @@ message CreateGroupResponse {
   repeated ValidationError validation_errors = 1;
 }
 
-message ReadGroupRequest {
+message GetGroupRequest {
   string sn = 1;
 }
-message ReadGroupResponse {
+message GetGroupResponse {
   ProductGroup product_group = 1;
 }
 

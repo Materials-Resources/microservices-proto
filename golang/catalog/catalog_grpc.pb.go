@@ -26,7 +26,7 @@ const (
 	CatalogService_DeleteProduct_FullMethodName        = "/catalog.v1.CatalogService/DeleteProduct"
 	CatalogService_ListGroups_FullMethodName           = "/catalog.v1.CatalogService/ListGroups"
 	CatalogService_CreateGroup_FullMethodName          = "/catalog.v1.CatalogService/CreateGroup"
-	CatalogService_ReadGroup_FullMethodName            = "/catalog.v1.CatalogService/ReadGroup"
+	CatalogService_GetGroup_FullMethodName             = "/catalog.v1.CatalogService/GetGroup"
 	CatalogService_UpdateGroup_FullMethodName          = "/catalog.v1.CatalogService/UpdateGroup"
 	CatalogService_DeleteGroup_FullMethodName          = "/catalog.v1.CatalogService/DeleteGroup"
 	CatalogService_ListSuppliers_FullMethodName        = "/catalog.v1.CatalogService/ListSuppliers"
@@ -56,7 +56,7 @@ type CatalogServiceClient interface {
 	// CreateGroup creates a new product group
 	CreateGroup(ctx context.Context, in *CreateGroupRequest, opts ...grpc.CallOption) (*CreateGroupResponse, error)
 	// ReadGroup returns a product group with products
-	ReadGroup(ctx context.Context, in *ReadGroupRequest, opts ...grpc.CallOption) (*ReadGroupResponse, error)
+	GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*GetGroupResponse, error)
 	// UpdateGroup updates a product group
 	UpdateGroup(ctx context.Context, in *UpdateGroupRequest, opts ...grpc.CallOption) (*UpdateGroupResponse, error)
 	// DeleteGroup deletes a product group
@@ -153,10 +153,10 @@ func (c *catalogServiceClient) CreateGroup(ctx context.Context, in *CreateGroupR
 	return out, nil
 }
 
-func (c *catalogServiceClient) ReadGroup(ctx context.Context, in *ReadGroupRequest, opts ...grpc.CallOption) (*ReadGroupResponse, error) {
+func (c *catalogServiceClient) GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*GetGroupResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ReadGroupResponse)
-	err := c.cc.Invoke(ctx, CatalogService_ReadGroup_FullMethodName, in, out, cOpts...)
+	out := new(GetGroupResponse)
+	err := c.cc.Invoke(ctx, CatalogService_GetGroup_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -262,7 +262,7 @@ type CatalogServiceServer interface {
 	// CreateGroup creates a new product group
 	CreateGroup(context.Context, *CreateGroupRequest) (*CreateGroupResponse, error)
 	// ReadGroup returns a product group with products
-	ReadGroup(context.Context, *ReadGroupRequest) (*ReadGroupResponse, error)
+	GetGroup(context.Context, *GetGroupRequest) (*GetGroupResponse, error)
 	// UpdateGroup updates a product group
 	UpdateGroup(context.Context, *UpdateGroupRequest) (*UpdateGroupResponse, error)
 	// DeleteGroup deletes a product group
@@ -309,8 +309,8 @@ func (UnimplementedCatalogServiceServer) ListGroups(context.Context, *ListGroupR
 func (UnimplementedCatalogServiceServer) CreateGroup(context.Context, *CreateGroupRequest) (*CreateGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateGroup not implemented")
 }
-func (UnimplementedCatalogServiceServer) ReadGroup(context.Context, *ReadGroupRequest) (*ReadGroupResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ReadGroup not implemented")
+func (UnimplementedCatalogServiceServer) GetGroup(context.Context, *GetGroupRequest) (*GetGroupResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGroup not implemented")
 }
 func (UnimplementedCatalogServiceServer) UpdateGroup(context.Context, *UpdateGroupRequest) (*UpdateGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateGroup not implemented")
@@ -482,20 +482,20 @@ func _CatalogService_CreateGroup_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CatalogService_ReadGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReadGroupRequest)
+func _CatalogService_GetGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGroupRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CatalogServiceServer).ReadGroup(ctx, in)
+		return srv.(CatalogServiceServer).GetGroup(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CatalogService_ReadGroup_FullMethodName,
+		FullMethod: CatalogService_GetGroup_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatalogServiceServer).ReadGroup(ctx, req.(*ReadGroupRequest))
+		return srv.(CatalogServiceServer).GetGroup(ctx, req.(*GetGroupRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -680,8 +680,8 @@ var CatalogService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CatalogService_CreateGroup_Handler,
 		},
 		{
-			MethodName: "ReadGroup",
-			Handler:    _CatalogService_ReadGroup_Handler,
+			MethodName: "GetGroup",
+			Handler:    _CatalogService_GetGroup_Handler,
 		},
 		{
 			MethodName: "UpdateGroup",
