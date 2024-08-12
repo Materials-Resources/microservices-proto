@@ -33,14 +33,14 @@ init:
 	go mod tidy
 
 commit:
-	git config --global user.email "smallegan@emrsinc.com"
-	git config --global user.name "Collin Smallegan"
-	git add . && git commit -am "proto update" || true
+	git add golang/$(SERVICE_NAME) && \
+    git commit -m "Update $(SERVICE_NAME) proto" || true
 
 tag:
-	git tag -fa golang/$(SERVICE_NAME)/$(RELEASE_VERSION) \
-		-m "golang/$(SERVICE_NAME)/$(RELEASE_VERSION)"
+	git tag -f golang/$(SERVICE_NAME)/$(RELEASE_VERSION) \
+    		$(shell git subtree split --prefix golang/$(SERVICE_NAME) HEAD) \
+    		-m "golang/$(SERVICE_NAME)/$(RELEASE_VERSION)"
 
 push:
-	git push origin refs/tags/golang/$(SERVICE_NAME)/$(RELEASE_VERSION)
+	git push origin golang/$(SERVICE_NAME)/$(RELEASE_VERSION)
 
