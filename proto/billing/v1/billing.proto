@@ -1,0 +1,5 @@
+syntax = 'proto3';
+
+package billing.v1;
+
+option go_package = "golang/billing";

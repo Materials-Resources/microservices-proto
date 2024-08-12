@@ -6,6 +6,19 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "golang/order";
 
+message Customer {
+  string id = 1;
+  string name = 2;
+}
+
+message Contact {
+  string id = 1;
+  string name = 2;
+  string phone_number = 3;
+  string email = 4;
+  string title = 5;
+}
+
 message Order {
   enum Status {
     STATUS_UNSPECIFIED = 0;
@@ -15,19 +28,22 @@ message Order {
   }
   string id = 1;
   Status status = 2;
-  google.protobuf.Timestamp date_placed = 3;
-  string purchase_order = 4;
+  string purchase_order = 3;
+  google.protobuf.Timestamp date_created = 4;
+  google.protobuf.Timestamp date_requested = 5;
+  Customer customer = 6;
+
+  OrderDetails order_details = 10;
 }
+
 message OrderItem {
   string id = 1;
   string product_uid = 2;
   string product_sn = 3;
   string product_name = 4;
   string ordered_as_sn = 5;
-
   double quantity_ordered = 6;
   string quantity_unit = 7;
-
   double total_price = 10;
   double shipped_quantity = 11;
   double back_ordered_quantity = 12;
@@ -40,7 +56,7 @@ message Shipment {
 }
 
 message Address {
-  double id = 1;
+  string id = 1;
   string name = 2;
   string line_one = 3;
   string line_two = 4;
@@ -49,30 +65,6 @@ message Address {
   string postal_code = 7;
   string country = 8;
 }
-message Customer {
-  double id = 1;
-  string name = 2;
-  string phone_number = 3;
-  string email = 4;
-}
-
-message CustomerContact {
-  string id = 1;
-  string name = 3;
-  string phone_number = 4;
-  string email = 5;
-  string title = 6;
-}
-
-message BasicOrder {
-  string id = 1;
-  string status = 2;
-  string taker = 3;
-  string purchase_order = 4;
-  google.protobuf.Timestamp order_date = 5;
-  google.protobuf.Timestamp requested_date = 6;
-  bool completed = 7;
-}
 
 message OrderDetails {
   string id = 1;
@@ -80,8 +72,7 @@ message OrderDetails {
   string taker = 3;
   string purchase_order = 4;
   Address shipping_address = 5;
-  Customer customer = 6;
-  CustomerContact contact = 7;
+  Contact contact = 7;
   string delivery_instructions = 8;
 }
 
@@ -99,132 +90,55 @@ message Filters {
   int32 cursor = 1;
   PageDirection direction = 2;
 }
+
 service OrderService {
-  // ClerkGetOrder returns the order details for a given order id
-  rpc ClerkGetOrder(ClerkGetOrderRequest) returns (ClerkGetOrderResponse);
-  // ClerkCreateOrder creates a new order
-  rpc ClerkCreateOrder(ClerkCreateOrderRequest) returns (ClerkCreateOrderResponse);
-  // ClerkCreateQuote creates a new quote
-  rpc ClerkCreateQuote(ClerkCreateQuoteRequest) returns (ClerkCreateQuoteResponse);
-  // ClerkGetShipment returns the shipment details for a given shipment id
-  rpc ClerkGetShipment(ClerkGetShipmentRequest) returns (ClerkGetShipmentResponse);
-  // ClerkGetShipmentsForOrder returns a list of shipment transactions for a given order id
-  rpc ClerkGetShipmentsForOrder(ClerkGetShipmentsForOrderRequest) returns (ClerkGetShipmentsForOrderResponse);
+  // ListOrders returns a list of orders for a given customer
+  rpc ListOrders(ListOrdersRequest) returns (ListOrdersResponse);
+  // GetOrder returns the order details for a given order id
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+  // CreateOrder creates a new order
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  // GetQuote returns the quote details for a given quote
+  rpc GetQuote(GetQuoteRequest) returns (GetQuoteResponse);
+  // CreateQuote creates a new quote
+  rpc CreateQuote(CreateQuoteRequest) returns (CreateQuoteResponse);
+  // ListShipmentsByOrder returns a list of shipment transactions for a given order id
+  rpc ListShipmentsByOrder(ListShipmentsByOrderRequest) returns (ListShipmentsByOrderResponse);
+  // GetShipment
+  rpc GetShipment(GetShipmentRequest) returns (GetShipmentResponse);
 
-  // CustomerGetQuote returns the quote details for a given quote
-  rpc CustomerGetQuote(CustomerGetQuoteRequest) returns (CustomerGetQuoteResponse);
-  // CustomerCreateQuote creates a new quote
-  rpc CustomerCreateQuote(CustomerCreateQuoteRequest) returns (CustomerCreateQuoteResponse);
-
-  // CustomerGetOrder returns the order details for a given order
-  rpc CustomerGetOrder(CustomerGetOrderRequest) returns (CustomerGetOrderResponse);
-  // CustomerListOrders returns a list of orders for a given customer
-  rpc CustomerListOrders(CustomerListOrdersRequest) returns (CustomerListOrdersResponse);
-  // CustomerGetShipmentsForOrder returns a list of shipment transactions for a given order id
-  rpc CustomerGetShipmentsForOrder(CustomerGetShipmentsForOrderRequest) returns (CustomerGetShipmentsForOrderResponse);
-
-  rpc CustomerGetShipment(CustomerGetShipmentRequest) returns (CustomerGetShipmentResponse);
 }
 
-message CustomerGetOrderRequest {
+message ListOrdersRequest {
+  string customer_branch_id = 1;
+}
+message ListOrdersResponse {
+  repeated Order orders = 1;
+}
+message GetOrderRequest {
   string id = 1;
 }
 
-message CustomerGetOrderResponse {
-  message Item {
-    OrderItem base = 1;
-  }
-
-  string id = 1;
-  repeated Item items = 2;
-
-  string purchase_order = 3;
-  string shipping_address_id = 4;
-  string shipping_address_name = 5;
-  string shipping_address_line_one = 6;
-  string shipping_address_line_two = 7;
-  string shipping_address_city = 8;
-  string shipping_address_state = 9;
-  string shipping_address_postal_code = 10;
-  string shipping_address_country = 11;
-
-  string delivery_instructions = 12;
-
-  google.protobuf.Timestamp date_placed = 13;
-
-  string taker = 14;
-
-  string customer_id = 15;
-  string customer_name = 16;
-  string contact_id = 17;
-  string contact_name = 18;
+message GetOrderResponse {
+  OrderDetails order_details = 1;
+  OrderItem order_items = 2;
 }
 
-message CustomerGetQuoteRequest {}
-message CustomerGetQuoteResponse {}
+message CreateOrderRequest {}
+message CreateOrderResponse {}
 
-message CustomerCreateQuoteRequest {
-  message QuoteItem {
-    string product_uid = 1;
-    double quantity_requested = 2;
-  }
-  repeated QuoteItem quote_items = 1;
-  string customer_branch_id = 2;
-  string date_requested_by = 3; // date the quote is requested by
-  string delivery_instructions = 4;
-  string purchase_order = 5;
-}
-message CustomerCreateQuoteResponse {}
+message GetQuoteRequest {}
+message GetQuoteResponse {}
 
-message CustomerGetShipmentsForOrderRequest {
-  string order_id = 1;
-}
 
-message CustomerGetShipmentsForOrderResponse {
-  repeated Shipment shipments = 1;
-}
-
-message ClerkCreateOrderRequest {}
-message ClerkCreateOrderResponse {}
-
-message ClerkGetOrderRequest {
-  string id = 1;
-}
-
-message ClerkGetOrderResponse {
-  message Item {
-    OrderItem base = 1;
-  }
-
-  string id = 1;
-  repeated Item items = 2;
-
-  string customer_id = 7;
-  string customer_name = 8;
-  string contact_id = 9;
-  string contact_name = 11;
-
-  Address shipping_address = 4;
-  string delivery_instructions = 10;
-  string taker = 12;
-  string purchase_order = 13;
-
-  google.protobuf.Timestamp date_placed = 14;
-}
-
-message ClerkCreateQuoteRequest {
+message CreateQuoteRequest {
   message OrderItem {
     // unique identifier for the product
     int32 product_uid = 1;
     // quantity of the product to be quoted
     double quantity_ordered = 2;
-    google.protobuf.Timestamp required_date = 3 [deprecated = true];
   }
   repeated OrderItem order_items = 1;
-  // Deprecated: customer_id is pulled from the customer_branch_id
-  double customer_id = 2 [deprecated = true];
-  // Deprecated: use company_branch_id
-  double shipping_address_id = 3 [deprecated = true];
   // customer accounts contact_id
   string contact_id = 4;
   // date the customer requested the quote to be completed
@@ -236,51 +150,24 @@ message ClerkCreateQuoteRequest {
   // customer generated purchase order number for this quote
   string purchase_order = 8;
 }
-message ClerkCreateQuoteResponse {
+message CreateQuoteResponse {
   // id of the created quote
   string id = 1;
 }
 
-message ClerkGetShipmentRequest {
-  string id = 1;
-}
-message ClerkGetShipmentResponse {
-  Shipment base_shipment = 1;
-  string order_id = 2;
-  string order_purchase_order = 3;
-  string shipping_address_id = 4;
-  string shipping_address_name = 5;
-  string shipping_address_line_one = 6;
-  string shipping_address_line_two = 7;
-  string shipping_address_city = 8;
-  string shipping_address_state = 9;
-  string shipping_address_postal_code = 10;
-  string shipping_address_country = 11;
-  string delivery_instructions = 12;
-  string contact_id = 13;
-  string contact_name = 14;
-}
-
-message CustomerListOrdersRequest {
-  string customer_branch_id = 1;
-}
-message CustomerListOrdersResponse {
-  repeated Order orders = 1;
-}
-
-message ClerkGetShipmentsForOrderRequest {
+message ListShipmentsByOrderRequest {
   string order_id = 1;
 }
-message ClerkGetShipmentsForOrderResponse {
+
+message ListShipmentsByOrderResponse {
   repeated Shipment shipments = 1;
 }
 
-message CustomerGetShipmentRequest {
+message GetShipmentRequest {
   string id = 1;
 }
-
-message CustomerGetShipmentResponse {
-  Shipment base_shipment = 1;
+message GetShipmentResponse {
+  Shipment shipment = 1;
   string order_id = 2;
   string order_purchase_order = 3;
   string shipping_address_id = 4;
@@ -295,3 +182,5 @@ message CustomerGetShipmentResponse {
   string contact_id = 13;
   string contact_name = 14;
 }
+
+

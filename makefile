@@ -1,3 +1,6 @@
+SERVICE_NAME ?= $(error SERVICE_NAME is not set)
+RELEASE_VERSION ?= $(error RELEASE_VERSION is not set)
+
 # ==================================================================================== #
 # HELPERS
 # ==================================================================================== #
@@ -17,9 +20,27 @@ confirm:
 no-dirty:
 	git diff --exit-code
 
+.PHONY: generate init commit tag push
 
-proto/generate:
+all: generate init commit tag push
 
-proto/lint:
+generate:
+	buf generate --path proto/$(SERVICE_NAME)
 
-proto/breaking:
+init:
+	cd golang/$(SERVICE_NAME) && \
+	go mod init github.com/materials-resources/microservices-proto/golang/$(SERVICE_NAME) || true && \
+	go mod tidy
+
+commit:
+	git config --global user.email "smallegan@emrsinc.com"
+	git config --global user.name "Collin Smallegan"
+	git add . && git commit -am "proto update" || true
+
+tag:
+	git tag -fa golang/$(SERVICE_NAME)/$(RELEASE_VERSION) \
+		-m "golang/$(SERVICE_NAME)/$(RELEASE_VERSION)"
+
+push:
+	git push origin refs/tags/golang/$(SERVICE_NAME)/$(RELEASE_VERSION)
+
