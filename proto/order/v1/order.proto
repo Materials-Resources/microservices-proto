@@ -53,6 +53,12 @@ message Shipment {
   string id = 1;
   string carrier_name = 2;
   string carrier_tracking = 3;
+  Address shipping_address = 4;
+  string delivery_instructions = 5;
+  string order_id = 6;
+  string order_purchase_order = 7;
+  Contact contact = 8;
+  Customer customer = 9;
 }
 
 message Address {
