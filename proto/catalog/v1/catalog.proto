@@ -28,7 +28,7 @@ message Cursor {
 message CursorMetadata {
   int64 previous_cursor = 1; // Cursor value for previous items
   int64 next_cursor = 2; // Cursor value for next items
-  int64 total = 3; // Total number of items
+  int64 total_results = 3; // Total number of results
 }
 
 message ProductSupplier {
@@ -45,8 +45,7 @@ message Product {
   string sn = 2;
   string name = 3;
   string description = 4;
-  string product_group_sn = 5;
-  string product_group_name = 6;
+  ProductGroup product_group = 5;
 }
 
 message Price {
@@ -179,11 +178,8 @@ message ListProductsRequest {
     enum DeleteFilter {
       DELETE_FILTER_UNSPECIFIED = 0;
       DELETE_FILTER_ALL = 1;
-      DELETE_FILTER_ACTIVE = 2;
-      DELETE_FILTER_DELETED = 3;
     }
-    repeated string product_group_sn = 1;
-    DeleteFilter delete_status = 2;
+    DeleteFilter delete_status = 1;
 
   }
   Filter filter = 1;
@@ -191,25 +187,13 @@ message ListProductsRequest {
 }
 
 message ListProductsResponse {
-  message ProductDetails {
-    Product product = 1;
-    float stock_quantity = 2;
-  }
-  repeated ProductDetails products = 1;
+  repeated Product products = 1;
   CursorMetadata cursor_metadata = 2;
 }
 
 message CreateProductRequest {}
 
 message CreateProductResponse {}
-
-message ClerkReadProductRequest {
-  string product_uid = 1; // Unique identifier of product
-}
-
-message ClerkReadProductResponse {
-  Product product = 1; // Common product details
-}
 
 message UpdateProductRequest {
   message Product {
