@@ -38,12 +38,17 @@ service SearchService {
   rpc AddProduct(AddProductRequest) returns (AddProductResponse);
 }
 
+message Filter {
+  repeated string product_group_id = 1;
+}
 message SearchProductsRequest {
   string query = 1;
   int32 page = 2;
   int32 per_page = 3;
   string sort_by = 4;
   string filter_by = 5;
+  Filter filter = 6;
+
 }
 
 message SearchProductsResponse {
@@ -65,8 +70,6 @@ message ProductDocument {
   string description = 3;
   string sn = 4;
   string product_group_id = 5;
-  float stock = 6;
-  float price = 7;
 }
 
 message SearchResponse {
