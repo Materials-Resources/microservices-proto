@@ -4,7 +4,7 @@ package catalog.v1;
 
 import "google/protobuf/field_mask.proto";
 
-option go_package = "catalog";
+option go_package = "go/catalog";
 
 enum DeleteMode {
   DELETE_MODE_UNSPECIFIED = 0;
