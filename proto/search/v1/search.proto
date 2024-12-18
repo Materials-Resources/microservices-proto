@@ -2,7 +2,6 @@ syntax = 'proto3';
 
 package search.v1;
 
-option go_package="search";
 
 message PageMetadata {
   int32 total_records = 1;
