@@ -45,7 +45,6 @@ message SearchProductsRequest {
   int32 page = 2;
   int32 per_page = 3;
   string sort_by = 4;
-  string filter_by = 5;
   Filter filter = 6;
 
 }
