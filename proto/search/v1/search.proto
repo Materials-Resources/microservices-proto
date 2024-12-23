@@ -2,33 +2,54 @@ syntax = 'proto3';
 
 package search.v1;
 
+// Common product fields extracted into a base message
+message ProductBase {
+  int32 uid = 1;                // Unique identifier
+  string name = 2;              // Product name
+  string description = 3;       // Product description
+  string serial_number = 4;     // Renamed from 'sn' for clarity
+  string product_group_id = 5;  // ID of the associated product group
+}
 
+// Pagination and Facet Metadata
 message PageMetadata {
-  int32 total_records = 1;
-  int32 current_page = 2;
-  int32 total_pages = 3;
-  repeated Facet facets = 4;
+  int32 total_records = 1; // Total results across all pages
+  int32 current_page = 2;  // Current page being viewed
+  int32 total_pages = 3;   // Total number of pages available
 }
 
-message FacetValue {
-  int32 count = 1;
-  string value = 2;
+// Represents a single aggregation result in a bucket
+message BucketAggregation {
+  string name = 1;   // The name or value of the aggregated item
+  int32 count = 2;   // The count or frequency of this item
 }
-message Facet {
-  string name = 1;
-  repeated FacetValue facet_values = 2;
+
+// Contains overall aggregation results for all fields using a map
+message Aggregations {
+  map<string, Bucket> field_buckets = 1; // Maps field names to their respective buckets
+}
+
+// Represents a bucket tied to a field, containing multiple aggregations
+message Bucket {
+  repeated BucketAggregation aggregations = 1; // List of aggregation results for this field
+}
+
+message Filter {
+  repeated string values = 1;
 }
 
 
-
-message Product {
-  string id = 1;
-  string sn = 2;
-  string name = 3;
-  string description = 4;
-  string product_group_id = 5;
-  double list_price = 6;
+// Product-related definitions
+// Refactored to a single message using ProductBase
+message ProductDocument {
+  ProductBase base = 1;
 }
+
+// Search result product, based on ProductBase
+message ProductResult {
+  ProductBase base = 1;
+}
+
 
 service SearchService {
   // SearchProducts returns a list of products based on the search query and filters
@@ -37,42 +58,19 @@ service SearchService {
   rpc AddProduct(AddProductRequest) returns (AddProductResponse);
 }
 
-message Filter {
-  repeated string product_group_id = 1;
-}
+// Request and Response Definitions for RPCs
 message SearchProductsRequest {
-  string query = 1;
-  int32 page = 2;
-  int32 per_page = 3;
-  string sort_by = 4;
-  Filter filter = 6;
-
+  string query = 1;                // Search query
+  int32 page = 2;                  // Page number (1-indexed)
+  int32 per_page = 3;              // Number of results per page
+  string sort_by = 4;              // Optional sort parameter
+  map<string, Filter> filters = 6;               // Optional filters
 }
 
 message SearchProductsResponse {
-  repeated Product products = 1;
+  repeated ProductResult results = 1;
   PageMetadata page_metadata = 2;
-}
-
-
-message ProductResult {
-  int32 uid = 1;
-  string name = 2;
-  string description = 3;
-  string sn = 4;
-  string product_group_id = 5;
-}
-message ProductDocument {
-  int32 uid = 1;
-  string name = 2;
-  string description = 3;
-  string sn = 4;
-  string product_group_id = 5;
-}
-
-message SearchResponse {
-  repeated ProductDocument products = 1;
-  PageMetadata page_metadata = 2;
+  Aggregations aggregations = 3;
 }
 
 message AddProductRequest {
