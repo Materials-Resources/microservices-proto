@@ -4,7 +4,7 @@ package search.v1;
 
 // Common product fields extracted into a base message
 message ProductBase {
-  int32 uid = 1;                // Unique identifier
+  string uid = 1;                // Unique identifier
   string name = 2;              // Product name
   string description = 3;       // Product description
   string serial_number = 4;     // Renamed from 'sn' for clarity
