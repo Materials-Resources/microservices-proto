@@ -62,9 +62,8 @@ service SearchService {
 message SearchProductsRequest {
   string query = 1;                // Search query
   int32 page = 2;                  // Page number (1-indexed)
-  int32 per_page = 3;              // Number of results per page
-  string sort_by = 4;              // Optional sort parameter
-  map<string, Filter> filters = 6;               // Optional filters
+  string sort_by = 3;              // Optional sort parameter
+  map<string, Filter> filters = 4;               // Optional filters
 }
 
 message SearchProductsResponse {
