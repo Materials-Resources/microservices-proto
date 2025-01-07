@@ -39,7 +39,7 @@ message ProductSupplier {
 }
 
 message Product {
-  string uid = 1;
+  string id = 1;
   string sn = 2;
   string name = 3;
   string description = 4;
@@ -134,7 +134,7 @@ message UpdateSupplierRequest {
 message UpdateSupplierResponse {}
 
 message SetPrimarySupplierRequest {
-  int32 product_uid = 1;
+  int32 product_id = 1;
   double location_id = 2;
   double supplier_id = 3;
   double division_id = 4;
@@ -164,7 +164,7 @@ message GetProductBySupplierResponse {
 }
 
 message GetProductRequest {
-  string product_uid = 1; // Unique identifier of product
+  string id = 1; // Unique identifier of product
 }
 
 message GetProductResponse {
@@ -201,14 +201,14 @@ message UpdateProductRequest {
     string description = 4;
     string product_group_sn = 5;
   }
-  string product_uid = 1; // Unique identifier of product
+  string id = 1; // Unique identifier of product
   Product product = 2;
 }
 
 message UpdateProductResponse {}
 
 message DeleteProductRequest {
-  string product_uid = 1; // Unique identifier of product
+  string id = 1; // Unique identifier of product
   DeleteMode delete_mode = 2;
 }
 
