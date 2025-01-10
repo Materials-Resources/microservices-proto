@@ -29,7 +29,6 @@ message Order {
     STATUS_APPROVED = 1;
     STATUS_COMPLETED = 2;
     STATUS_CANCELLED = 3;
-    STATUS_PROCESSING = 4;
   }
   string id = 1;
   Status status = 2;
