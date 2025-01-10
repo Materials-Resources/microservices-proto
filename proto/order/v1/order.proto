@@ -18,12 +18,18 @@ message Contact {
   string title = 5;
 }
 
+message Branch {
+  string id = 1;
+  string name = 2;
+}
+
 message Order {
   enum Status {
     STATUS_UNSPECIFIED = 0;
     STATUS_APPROVED = 1;
     STATUS_COMPLETED = 2;
     STATUS_CANCELLED = 3;
+    STATUS_PROCESSING = 4;
   }
   string id = 1;
   Status status = 2;
@@ -31,11 +37,12 @@ message Order {
   google.protobuf.Timestamp date_created = 4;
   google.protobuf.Timestamp date_requested = 5;
   Customer customer = 6;
+  Contact contact = 7;
 }
 
 message OrderItem {
   string id = 1;
-  string product_uid = 2;
+  string product_id = 2;
   string product_sn = 3;
   string product_name = 4;
   string customer_product_sn = 5;
@@ -113,7 +120,11 @@ service OrderService {
 }
 
 message ListOrdersRequest {
-  string customer_id = 1;
+  string branch_id = 1;
+  // Results to display on a page
+  int32 page_size = 2;
+  // Currently selected page
+  int32 page = 3;
 }
 
 message ListOrdersResponse {
@@ -146,7 +157,7 @@ message CreateQuoteRequest {
   // customer accounts contact_id
   string contact_id = 4;
   // represents ship_to in prophet and is used as a sub location of a customer record
-  string customer_id = 5;
+  string branch_id = 5;
   // date the customer requested the quote to be completed
   google.protobuf.Timestamp requested_date = 6;
   // instructions pertaining to the delivery of the order
