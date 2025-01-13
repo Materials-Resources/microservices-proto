@@ -4,6 +4,13 @@ package order.v1;
 
 import "google/protobuf/timestamp.proto";
 
+enum OrderStatus {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_APPROVED = 1;
+  STATUS_COMPLETED = 2;
+  STATUS_CANCELLED = 3;
+  STATUS_PENDING_APPROVAL = 4;
+}
 
 message Customer {
   string id = 1;
@@ -23,35 +30,42 @@ message Branch {
   string name = 2;
 }
 
-message Order {
-  enum Status {
-    STATUS_UNSPECIFIED = 0;
-    STATUS_APPROVED = 1;
-    STATUS_COMPLETED = 2;
-    STATUS_CANCELLED = 3;
-    STATUS_PENDING_APPROVAL = 4;
-  }
+message OrderSummary {
   string id = 1;
-  Status status = 2;
-  string purchase_order = 3;
-  google.protobuf.Timestamp date_created = 4;
-  google.protobuf.Timestamp date_requested = 5;
-  Customer customer = 6;
-  Contact contact = 7;
+  string contact_id = 2;
+  string branch_id = 3;
+  string purchase_order = 4;
+  OrderStatus status = 5;
+  google.protobuf.Timestamp date_created = 6;
+  google.protobuf.Timestamp date_requested = 7;
 }
 
-message OrderItem {
+message Order {
+  message Item {
+    string id = 1;
+    string product_id = 2;
+    string product_sn = 3;
+    string product_name = 4;
+    string customer_product_sn = 5;
+    double quantity_ordered = 6;
+    string quantity_unit = 7;
+    double total_price = 10;
+    double shipped_quantity = 11;
+    double back_ordered_quantity = 12;
+  }
+
   string id = 1;
-  string product_id = 2;
-  string product_sn = 3;
-  string product_name = 4;
-  string customer_product_sn = 5;
-  double quantity_ordered = 6;
-  string quantity_unit = 7;
-  double total_price = 10;
-  double shipped_quantity = 11;
-  double back_ordered_quantity = 12;
+  string contact_id = 2;
+  string branch_id = 3;
+  string purchase_order = 4;
+  OrderStatus status = 5;
+  google.protobuf.Timestamp date_created = 6;
+  google.protobuf.Timestamp date_requested = 7;
+
+  repeated Item order_items = 8;
 }
+
+
 
 message Shipment {
   string id = 1;
@@ -128,7 +142,7 @@ message ListOrdersRequest {
 }
 
 message ListOrdersResponse {
-  repeated Order orders = 1;
+  repeated OrderSummary orders = 1;
 }
 message GetOrderRequest {
   string id = 1;
@@ -136,7 +150,6 @@ message GetOrderRequest {
 
 message GetOrderResponse {
   Order order = 1;
-  repeated OrderItem order_items = 2;
 }
 
 message CreateOrderRequest {}
