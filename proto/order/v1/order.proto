@@ -61,8 +61,8 @@ message Order {
   OrderStatus status = 5;
   google.protobuf.Timestamp date_created = 6;
   google.protobuf.Timestamp date_requested = 7;
-
   repeated Item order_items = 8;
+  Address shipping_address = 9;
 }
 
 
