@@ -47,10 +47,11 @@ message Order {
     string product_sn = 3;
     string product_name = 4;
     string customer_product_sn = 5;
-    double quantity_ordered = 6;
-    string quantity_unit = 7;
+    double order_quantity = 6;
+    double shipped_quantity = 7;
+    string unit_type = 8;
+    double unit_price = 9;
     double total_price = 10;
-    double shipped_quantity = 11;
     double back_ordered_quantity = 12;
   }
 
