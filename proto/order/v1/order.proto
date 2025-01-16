@@ -5,11 +5,19 @@ package order.v1;
 import "google/protobuf/timestamp.proto";
 
 enum OrderStatus {
-  STATUS_UNSPECIFIED = 0;
-  STATUS_APPROVED = 1;
-  STATUS_COMPLETED = 2;
-  STATUS_CANCELLED = 3;
-  STATUS_PENDING_APPROVAL = 4;
+  ORDER_STATUS_UNSPECIFIED = 0;
+  ORDER_STATUS_APPROVED = 1;
+  ORDER_STATUS_COMPLETED = 2;
+  ORDER_STATUS_CANCELLED = 3;
+  ORDER_STATUS_PENDING_APPROVAL = 4;
+}
+
+enum QuoteStatus {
+  QUOTE_STATUS_UNSPECIFIED = 0;
+  QUOTE_STATUS_PENDING_APPROVAL = 1;
+  QUOTE_STATUS_COMPLETED = 3;
+  QUOTE_STATUS_CANCELLED = 4;
+  QUOTE_STATUS_EXPIRED = 5;
 }
 
 message Customer {
@@ -38,6 +46,16 @@ message OrderSummary {
   OrderStatus status = 5;
   google.protobuf.Timestamp date_created = 6;
   google.protobuf.Timestamp date_requested = 7;
+}
+
+message QuoteSummary {
+  string id = 1;
+  Contact contact =2;
+  Branch branch = 3;
+  string purchase_order = 4;
+  QuoteStatus status = 5;
+  google.protobuf.Timestamp date_created = 6;
+  google.protobuf.Timestamp date_expires = 7;
 }
 
 message Order {
@@ -123,6 +141,7 @@ service OrderService {
   rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
   // CreateOrder creates a new order
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  rpc ListQuotes(ListQuotesRequest) returns (ListQuotesResponse);
   // GetQuote returns the quote details for a given quote
   rpc GetQuote(GetQuoteRequest) returns (GetQuoteResponse);
   // CreateQuote creates a new quote
@@ -156,8 +175,20 @@ message GetOrderResponse {
 message CreateOrderRequest {}
 message CreateOrderResponse {}
 
-message GetQuoteRequest {}
-message GetQuoteResponse {}
+message ListQuotesRequest {}
+message ListQuotesResponse {
+
+}
+message GetQuoteRequest {
+  string branch_id = 1;
+  // Results to display on a page
+  int32 page_size = 2;
+  // Currently selected page
+  int32 page = 3;
+}
+message GetQuoteResponse {
+  repeated QuoteSummary quotes = 1;
+}
 
 
 message CreateQuoteRequest {
