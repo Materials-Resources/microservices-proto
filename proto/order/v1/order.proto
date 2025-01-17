@@ -175,19 +175,21 @@ message GetOrderResponse {
 message CreateOrderRequest {}
 message CreateOrderResponse {}
 
-message ListQuotesRequest {}
-message ListQuotesResponse {
-
-}
-message GetQuoteRequest {
+message ListQuotesRequest {
   string branch_id = 1;
   // Results to display on a page
   int32 page_size = 2;
   // Currently selected page
   int32 page = 3;
 }
-message GetQuoteResponse {
+message ListQuotesResponse {
   repeated QuoteSummary quotes = 1;
+}
+message GetQuoteRequest {
+
+}
+message GetQuoteResponse {
+
 }
 
 
