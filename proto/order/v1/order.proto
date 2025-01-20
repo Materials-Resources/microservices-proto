@@ -38,15 +38,6 @@ message Branch {
   string name = 2;
 }
 
-message OrderSummary {
-  string id = 1;
-  string contact_id = 2;
-  string branch_id = 3;
-  string purchase_order = 4;
-  OrderStatus status = 5;
-  google.protobuf.Timestamp date_created = 6;
-  google.protobuf.Timestamp date_requested = 7;
-}
 
 message QuoteSummary {
   string id = 1;
@@ -56,6 +47,38 @@ message QuoteSummary {
   QuoteStatus status = 5;
   google.protobuf.Timestamp date_created = 6;
   google.protobuf.Timestamp date_expires = 7;
+}
+
+message Quote {
+  message Item {
+    string id = 1;
+    string product_id = 2;
+    string product_sn = 3;
+    string product_name = 4;
+    string customer_product_sn = 5;
+    double ordered_quantity = 6;
+    string unit_type = 7;
+    double unit_price = 8;
+    double total_price = 9;
+  }
+  string id = 1;
+  Contact contact =2;
+  Branch branch = 3;
+  string purchase_order =4;
+  QuoteStatus status = 5;
+  google.protobuf.Timestamp date_created = 6;
+  google.protobuf.Timestamp date_expires = 7;
+  google.protobuf.Timestamp date_requested = 8;
+}
+
+message OrderSummary {
+  string id = 1;
+  string contact_id = 2;
+  string branch_id = 3;
+  string purchase_order = 4;
+  OrderStatus status = 5;
+  google.protobuf.Timestamp date_created = 6;
+  google.protobuf.Timestamp date_requested = 7;
 }
 
 message Order {
@@ -107,16 +130,6 @@ message Address {
   string state = 6;
   string postal_code = 7;
   string country = 8;
-}
-
-message OrderDetails {
-  string id = 1;
-  string status = 2;
-  string taker = 3;
-  string purchase_order = 4;
-  Address shipping_address = 5;
-  Contact contact = 7;
-  string delivery_instructions = 8;
 }
 
 message PageMetadata {
@@ -186,10 +199,11 @@ message ListQuotesResponse {
   repeated QuoteSummary quotes = 1;
 }
 message GetQuoteRequest {
-
+  string id = 1;
 }
-message GetQuoteResponse {
 
+message GetQuoteResponse {
+  Quote quote = 2;
 }
 
 
