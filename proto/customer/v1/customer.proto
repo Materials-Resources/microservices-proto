@@ -1,0 +1,21 @@
+syntax = 'proto3';
+
+package customer.v1;
+
+message BranchSummary {
+  string id = 1;
+  string name = 2;
+}
+service CustomerService {
+  rpc GetBranchesForContact
+      (GetBranchesForContactRequest) returns (GetBranchesForContactResponse);
+}
+
+message GetBranchesForContactRequest {
+  string contact_id = 1;
+
+}
+
+message GetBranchesForContactResponse {
+  repeated BranchSummary branches = 1;
+}

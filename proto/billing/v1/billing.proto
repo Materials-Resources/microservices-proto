@@ -2,4 +2,25 @@ syntax = 'proto3';
 
 package billing.v1;
 
-option go_package = "golang/billing";
+message InvoiceSummary {
+  string id = 1;
+  string order_id = 2;
+  string status = 3;
+  string created_at = 4;
+  double total = 5;
+  double amount_paid = 6;
+
+}
+
+service BillingService {
+  // GetInvoicesByOrder returns all invoices for a given order
+  rpc GetInvoicesByOrder(GetInvoicesByOrderRequest) returns (GetInvoicesByOrderResponse);
+}
+
+message GetInvoicesByOrderRequest {
+  string order_id = 1;
+}
+
+message GetInvoicesByOrderResponse {
+  repeated InvoiceSummary invoices = 1;
+}

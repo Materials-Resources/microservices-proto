@@ -8,7 +8,7 @@ message ProductBase {
   string name = 2;              // Product name
   string description = 3;       // Product description
   string serial_number = 4;     // Renamed from 'sn' for clarity
-  string product_group_id = 5;  // ID of the associated product group
+  string product_group_name = 5;  // ID of the associated product group
 }
 
 // Pagination and Facet Metadata
