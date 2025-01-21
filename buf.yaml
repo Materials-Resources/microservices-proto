@@ -3,6 +3,9 @@ modules:
   - path: proto/search/v1
   - path: proto/catalog/v1
   - path: proto/order/v1
+  - path: proto/billing/v1
+  - path: proto/customer/v1
+
 
 lint:
   use:
