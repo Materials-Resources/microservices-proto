@@ -1,12 +1,14 @@
 syntax = 'proto3';
 
+import "google/protobuf/timestamp.proto";
+
 package billing.v1;
 
 message InvoiceSummary {
   string id = 1;
   string order_id = 2;
   string status = 3;
-  string created_at = 4;
+  google.protobuf.Timestamp date_invoiced = 4;
   double total = 5;
   double amount_paid = 6;
 
