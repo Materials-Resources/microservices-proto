@@ -2,6 +2,11 @@ syntax = 'proto3';
 
 package customer.v1;
 
+message Branch {
+  string id = 1;
+  string name = 2;
+  string customer_id = 3;
+}
 message BranchSummary {
   string id = 1;
   string name = 2;
@@ -9,6 +14,7 @@ message BranchSummary {
 service CustomerService {
   rpc GetBranchesForContact
       (GetBranchesForContactRequest) returns (GetBranchesForContactResponse);
+  rpc GetBranch(GetBranchRequest) returns (GetBranchResponse);
 }
 
 message GetBranchesForContactRequest {
@@ -18,4 +24,13 @@ message GetBranchesForContactRequest {
 
 message GetBranchesForContactResponse {
   repeated BranchSummary branches = 1;
+}
+
+message GetBranchRequest {
+  string id = 1;
+
+}
+
+message GetBranchResponse {
+  Branch branch = 1;
 }
