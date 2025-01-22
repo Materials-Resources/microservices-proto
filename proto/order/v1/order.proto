@@ -224,10 +224,8 @@ message CreateQuoteRequest {
   string branch_id = 5;
   // date the customer requested the quote to be completed
   google.protobuf.Timestamp requested_date = 6;
-  // instructions pertaining to the delivery of the order
-  string delivery_instructions = 7;
-  // customer generated purchase order number for this quote
-  string purchase_order = 8;
+
+  string notes = 7;
 }
 message CreateQuoteResponse {
   // id of the created quote
