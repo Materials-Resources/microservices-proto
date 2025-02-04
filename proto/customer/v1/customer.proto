@@ -39,7 +39,7 @@ message GetBranchResponse {
 
 message GetRecentPurchasesByBranchRequest {
   string id = 1;
-  string limit = 2;
+  int32 limit = 2;
 }
 
 message GetRecentPurchasesByBranchResponse {
