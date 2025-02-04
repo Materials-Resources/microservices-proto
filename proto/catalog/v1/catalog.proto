@@ -44,6 +44,8 @@ message Product {
   string name = 3;
   string description = 4;
   ProductGroup product_group = 5;
+  double quantity_available = 6;
+  string unit_type = 7;
 }
 
 message Price {
