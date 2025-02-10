@@ -50,6 +50,14 @@ message ProductResult {
   ProductBase base = 1;
 }
 
+message Product {
+  string id = 1;
+  string sn = 2;
+  string name = 3;
+  string description = 4;
+  string product_group_name = 5;
+}
+
 
 service SearchService {
   // SearchProducts returns a list of products based on the search query and filters
@@ -73,7 +81,7 @@ message SearchProductsResponse {
 }
 
 message AddProductRequest {
-  repeated ProductDocument products = 1;
+  repeated Product products = 1;
 }
 
 message AddProductResponse {
