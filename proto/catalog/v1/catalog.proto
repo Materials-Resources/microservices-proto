@@ -17,10 +17,9 @@ message ValidationError {
 
 message Cursor {
   oneof direction {
-    int64 select_previous = 1; // select previous items using cursor value
-    int64 select_next = 2; // select next items using cursor value
+    string select_previous = 1; // select previous items using cursor value
+    string select_next = 2; // select next items using cursor value
   }
-  int64 size = 3; // Number of items to return
 }
 
 message CursorMetadata {
@@ -187,8 +186,12 @@ message ListProductsRequest {
 }
 
 message ListProductsResponse {
+  message Cursor {
+    string next = 1;
+    string previous = 2;
+  }
   repeated Product products = 1;
-  CursorMetadata cursor_metadata = 2;
+  Cursor cursor = 2;
 }
 
 message CreateProductRequest {}
