@@ -199,15 +199,12 @@ message CreateProductRequest {}
 message CreateProductResponse {}
 
 message UpdateProductRequest {
-  message Product {
-    google.protobuf.FieldMask update_mask = 1;
-    string sn = 2;
-    string name = 3;
-    string description = 4;
-    string product_group_sn = 5;
-  }
-  string id = 1; // Unique identifier of product
-  Product product = 2;
+  string id = 1;
+  string sn = 2;
+  string name = 3;
+  string description = 4;
+  string product_group_sn = 5;
+  google.protobuf.FieldMask update_mask = 15;
 }
 
 message UpdateProductResponse {}
