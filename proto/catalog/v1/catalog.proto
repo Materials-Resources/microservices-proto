@@ -28,6 +28,11 @@ message CursorMetadata {
   int64 total_results = 3; // Total number of results
 }
 
+message UnitOfMeasurement {
+  string id = 1;
+  double conversion_factor = 2;
+}
+
 message ProductSupplier {
   string product_id = 1;
   string supplier_id = 2;
@@ -42,9 +47,10 @@ message Product {
   string sn = 2;
   string name = 3;
   string description = 4;
-  ProductGroup product_group = 5;
-  double quantity_available = 6;
-  string unit_type = 7;
+  string product_group_sn = 5;
+  string product_group_name = 6;
+  double quantity_available = 7;
+  UnitOfMeasurement sales_unit_of_measurement = 8;
 }
 
 message Price {
