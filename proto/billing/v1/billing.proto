@@ -4,19 +4,85 @@ import "google/protobuf/timestamp.proto";
 
 package billing.v1;
 
+message UnitOfMeasurement {
+  string id = 1;
+  double conversion_factor = 2;
+}
+
+message Address {
+  string name = 1;
+  string line_one = 2;
+  string line_two = 3;
+  string city = 4;
+  string state = 5;
+  string postal_code = 6;
+  string country = 7;
+}
 message InvoiceSummary {
   string id = 1;
   string order_id = 2;
   string status = 3;
-  google.protobuf.Timestamp date_invoiced = 4;
+  google.protobuf.Timestamp date_created = 4;
   double total = 5;
   double amount_paid = 6;
+}
 
+message LedgerEntry {
+  string description = 1;
+  double amount = 2;
+}
+
+message InvoiceTotals {
+  double subtotal = 1;
+  repeated LedgerEntry charges = 2;
+  repeated LedgerEntry credits = 3;
+  double amount_due = 4;
+}
+
+
+message Invoice {
+  message Item {
+    string product_id = 1;
+    string product_sn = 2;
+    string product_name = 3;
+    string product_description = 4;
+    string customer_product_sn = 5;
+    double ordered_quantity = 6;
+    double shipped_quantity = 7;
+    double remaining_quantity = 8;
+    UnitOfMeasurement sales_unit_of_measurement = 9;
+    double unit_price = 10;
+    UnitOfMeasurement purchase_unit_of_measurement = 11;
+    double line_total = 12;
+  }
+  string id = 1;
+  google.protobuf.Timestamp  date_created = 2;
+  string order_id = 3;
+  string purchase_order = 4;
+  string customer_id = 5;
+  string contact_email = 6;
+  google.protobuf.Timestamp date_ordered = 7;
+  string sales_rep_name = 8;
+  string taker_name = 9;
+  Address shipping_address = 10;
+  Address billing_address = 11;
+  string shipment_id = 12;
+  string shipment_carrier = 13;
+  string shipment_tracking_number = 14;
+  google.protobuf.Timestamp date_net_due = 15;
+  string terms = 16;
+  google.protobuf.Timestamp date_discount_due = 17;
+  double discount_total = 18;
+
+  InvoiceTotals totals = 29;
+  repeated Item items = 30;
 }
 
 service BillingService {
   // GetInvoicesByOrder returns all invoices for a given order
   rpc GetInvoicesByOrder(GetInvoicesByOrderRequest) returns (GetInvoicesByOrderResponse);
+
+  rpc GetInvoice(GetInvoiceRequest) returns (GetInvoiceResponse);
 }
 
 message GetInvoicesByOrderRequest {
@@ -25,4 +91,10 @@ message GetInvoicesByOrderRequest {
 
 message GetInvoicesByOrderResponse {
   repeated InvoiceSummary invoices = 1;
+}
+
+message GetInvoiceRequest {}
+
+message GetInvoiceResponse {
+  Invoice invoice = 1;
 }
