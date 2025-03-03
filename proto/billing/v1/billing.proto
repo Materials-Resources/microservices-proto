@@ -93,7 +93,9 @@ message GetInvoicesByOrderResponse {
   repeated InvoiceSummary invoices = 1;
 }
 
-message GetInvoiceRequest {}
+message GetInvoiceRequest {
+  string id = 1;
+}
 
 message GetInvoiceResponse {
   Invoice invoice = 1;
