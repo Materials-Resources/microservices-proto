@@ -5,7 +5,8 @@ modules:
   - path: proto/order/v1
   - path: proto/billing/v1
   - path: proto/customer/v1
-
+deps:
+  - buf.build/protocolbuffers/wellknowntypes:v29.3
 lint:
   use:
     - DEFAULT
