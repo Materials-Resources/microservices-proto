@@ -2,14 +2,6 @@ syntax = 'proto3';
 
 package search.v1;
 
-// Common product fields extracted into a base message
-message ProductBase {
-  string uid = 1;                // Unique identifier
-  string name = 2;              // Product name
-  string description = 3;       // Product description
-  string serial_number = 4;     // Renamed from 'sn' for clarity
-  string product_group_name = 5;  // ID of the associated product group
-}
 
 // Pagination and Facet Metadata
 message PageMetadata {
@@ -24,31 +16,22 @@ message BucketAggregation {
   int32 count = 2;   // The count or frequency of this item
 }
 
-// Contains overall aggregation results for all fields using a map
-message Aggregations {
-  map<string, Bucket> field_buckets = 1; // Maps field names to their respective buckets
+message TermsAggregation {
+  string FieldName = 1;
+  repeated BucketAggregation buckets = 2; // List of buckets for this term aggregation
 }
 
-// Represents a bucket tied to a field, containing multiple aggregations
-message Bucket {
-  repeated BucketAggregation aggregations = 1; // List of aggregation results for this field
+message Aggregation {
+  oneof aggregation_type {
+    TermsAggregation terms_aggregation = 1;
+  }
 }
+
 
 message Filter {
   repeated string values = 1;
 }
 
-
-// Product-related definitions
-// Refactored to a single message using ProductBase
-message ProductDocument {
-  ProductBase base = 1;
-}
-
-// Search result product, based on ProductBase
-message ProductResult {
-  ProductBase base = 1;
-}
 
 message Product {
   string id = 1;
@@ -75,9 +58,9 @@ message SearchProductsRequest {
 }
 
 message SearchProductsResponse {
-  repeated ProductResult results = 1;
+  repeated Product products = 1;
   PageMetadata page_metadata = 2;
-  Aggregations aggregations = 3;
+  repeated Aggregation aggregations = 3;
 }
 
 message AddProductRequest {
