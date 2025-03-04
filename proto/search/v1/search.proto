@@ -1,10 +1,9 @@
 edition = "2023";
 
-package search.v1;
-
 import "google/protobuf/go_features.proto";
 option features.(pb.go).api_level = API_OPAQUE;
 
+package search.v1;
 
 // Pagination and Facet Metadata
 message PageMetadata {
@@ -15,12 +14,12 @@ message PageMetadata {
 
 // Represents a single aggregation result in a bucket
 message BucketAggregation {
-  string name = 1;   // The name or value of the aggregated item
-  int32 count = 2;   // The count or frequency of this item
+  string key = 1;   // The field value of the aggregation
+  int32 count = 2;   // The total occurrences of the field value
 }
 
 message TermsAggregation {
-  string FieldName = 1;
+  string field_name = 1; // field name for the aggregation
   repeated BucketAggregation buckets = 2; // List of buckets for this term aggregation
 }
 

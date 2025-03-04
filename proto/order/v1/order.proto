@@ -1,8 +1,11 @@
-syntax = 'proto3';
-
-package order.v1;
+edition = "2023";
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/go_features.proto";
+
+option features.(pb.go).api_level = API_OPAQUE;
+
+package order.v1;
 
 enum OrderStatus {
   ORDER_STATUS_UNSPECIFIED = 0;
