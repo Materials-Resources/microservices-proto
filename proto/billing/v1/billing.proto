@@ -59,23 +59,28 @@ message Invoice {
     double line_total = 12;
   }
   string id = 1;
-  google.protobuf.Timestamp  date_created = 2;
-  string order_id = 3;
-  string purchase_order = 4;
-  string customer_id = 5;
-  string contact_email = 6;
-  google.protobuf.Timestamp date_ordered = 7;
-  string sales_rep_name = 8;
-  string taker_name = 9;
-  Address shipping_address = 10;
+  string order_id = 2;
+  string purchase_order = 3;
+  string customer_id = 4;
+  google.protobuf.Timestamp date_created = 5;
+  google.protobuf.Timestamp date_ordered = 6;
+  google.protobuf.Timestamp date_net_due = 7;
+  google.protobuf.Timestamp date_discount_due = 8;
+
+  string sales_rep_name = 9;
+  string taker_name = 10;
+
   Address billing_address = 11;
-  string shipment_id = 12;
-  string shipment_carrier = 13;
-  string shipment_tracking_number = 14;
-  google.protobuf.Timestamp date_net_due = 15;
-  string terms = 16;
-  google.protobuf.Timestamp date_discount_due = 17;
-  double discount_total = 18;
+  string billing_contact = 12;
+  Address shipping_address = 13;
+  string shipping_contact = 14;
+
+  string shipment_id = 15;
+  string shipment_carrier = 16;
+  string shipment_tracking_number = 17;
+
+  string terms = 18;
+  double discount_total = 19;
 
   InvoiceTotals totals = 29;
   repeated Item items = 30;
