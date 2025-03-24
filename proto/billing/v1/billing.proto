@@ -39,7 +39,7 @@ message InvoiceTotals {
   double subtotal = 1;
   repeated LedgerEntry charges = 2;
   repeated LedgerEntry credits = 3;
-  double amount_due = 4;
+  double amount_paid = 4;
   bool is_paid = 5;
 }
 
