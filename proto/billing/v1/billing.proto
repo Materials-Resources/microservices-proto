@@ -74,13 +74,14 @@ message Invoice {
   string billing_contact = 12;
   Address shipping_address = 13;
   string shipping_contact = 14;
+  string shipping_contact_email = 15;
 
-  string shipment_id = 15;
-  string shipment_carrier = 16;
-  string shipment_tracking_number = 17;
+  string shipment_id = 16;
+  string shipment_carrier = 17;
+  string shipment_tracking_number = 18;
 
-  string terms = 18;
-  double discount_total = 19;
+  string terms = 19;
+  double discount_total = 20;
 
   InvoiceTotals totals = 29;
   repeated Item items = 30;
