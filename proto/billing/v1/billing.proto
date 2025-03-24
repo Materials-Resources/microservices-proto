@@ -81,7 +81,7 @@ message Invoice {
   string shipment_tracking_number = 18;
 
   string terms = 19;
-  double discount_total = 20;
+  double terms_discount_total = 20;
 
   InvoiceTotals totals = 29;
   repeated Item items = 30;
