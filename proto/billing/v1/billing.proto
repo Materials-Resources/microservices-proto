@@ -40,6 +40,7 @@ message InvoiceTotals {
   repeated LedgerEntry charges = 2;
   repeated LedgerEntry credits = 3;
   double amount_due = 4;
+  bool is_paid = 5;
 }
 
 
@@ -64,24 +65,24 @@ message Invoice {
   string customer_id = 4;
   google.protobuf.Timestamp date_created = 5;
   google.protobuf.Timestamp date_ordered = 6;
-  google.protobuf.Timestamp date_net_due = 7;
-  google.protobuf.Timestamp date_discount_due = 8;
 
-  string sales_rep_name = 9;
-  string taker_name = 10;
+  string sales_rep_name = 7;
+  string taker_name = 8;
 
-  Address billing_address = 11;
-  string billing_contact = 12;
-  Address shipping_address = 13;
-  string shipping_contact = 14;
-  string shipping_contact_email = 15;
+  Address billing_address = 9;
+  string billing_contact = 10;
+  Address shipping_address = 11;
+  string shipping_contact = 12;
+  string shipping_contact_email = 13;
 
-  string shipment_id = 16;
-  string shipment_carrier = 17;
-  string shipment_tracking_number = 18;
+  string shipment_id = 14;
+  string shipment_carrier = 15;
+  string shipment_tracking_number = 16;
 
-  string terms = 19;
-  double terms_discount_total = 20;
+  string terms = 17;
+  google.protobuf.Timestamp terms_due_date = 18;
+  double terms_discount_total = 19;
+  google.protobuf.Timestamp terms_discount_due_date = 20;
 
   InvoiceTotals totals = 29;
   repeated Item items = 30;
