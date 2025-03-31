@@ -25,7 +25,7 @@ message InvoiceSummary {
   string id = 1;
   string order_id = 2;
   string status = 3;
-  google.protobuf.Timestamp date_created = 4;
+  google.protobuf.Timestamp date_invoiced = 4;
   double total = 5;
   double amount_paid = 6;
 }
