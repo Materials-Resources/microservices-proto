@@ -1,0 +1,19 @@
+edition = "2023";
+
+import "google/protobuf/go_features.proto";
+
+option features.(pb.go).api_level = API_OPAQUE;
+
+package report.v1;
+
+service ReportService {
+  rpc GetInvoice(GetInvoiceRequest) returns (stream GetInvoiceResponse);
+}
+
+message GetInvoiceRequest {
+  string id = 1;
+}
+
+message GetInvoiceResponse {
+  bytes content = 1;
+}
