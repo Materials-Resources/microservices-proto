@@ -63,7 +63,7 @@ message Invoice {
   string order_id = 2;
   string purchase_order = 3;
   string customer_id = 4;
-  google.protobuf.Timestamp date_created = 5;
+  google.protobuf.Timestamp date_invoiced = 5;
   google.protobuf.Timestamp date_ordered = 6;
 
   string sales_rep_name = 7;
