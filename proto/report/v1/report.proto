@@ -8,6 +8,7 @@ package report.v1;
 
 service ReportService {
   rpc GetInvoice(GetInvoiceRequest) returns (stream GetInvoiceResponse);
+  rpc GetPackingList(GetPackingListRequest) returns (stream GetPackingListResponse);
 }
 
 message GetInvoiceRequest {
@@ -15,5 +16,13 @@ message GetInvoiceRequest {
 }
 
 message GetInvoiceResponse {
+  bytes content = 1;
+}
+
+message GetPackingListRequest {
+  string id = 1;
+}
+
+message GetPackingListResponse {
   bytes content = 1;
 }
