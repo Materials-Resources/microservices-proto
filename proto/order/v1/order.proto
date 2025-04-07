@@ -102,7 +102,7 @@ message Order {
     string unit_type = 8;
     double unit_price = 9;
     double total_price = 10;
-    double back_ordered_quantity = 12;
+    double remaining_quantity = 12;
   }
 
   string id = 1;
@@ -114,6 +114,7 @@ message Order {
   google.protobuf.Timestamp date_requested = 7;
   repeated Item order_items = 8;
   Address shipping_address = 9;
+  string taker = 10;
 }
 
 
