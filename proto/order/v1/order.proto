@@ -156,6 +156,12 @@ message Filters {
   PageDirection direction = 2;
 }
 
+message PackingListSummary {
+ string invoice_id = 1;
+ string order_id = 2;
+ string date_invoiced = 3;
+
+}
 message PackingList {
   message Item {
     string product_id = 1;
@@ -218,6 +224,7 @@ service OrderService {
   rpc GetShipment(GetShipmentRequest) returns (GetShipmentResponse);
   // GetPackingList returns the packing list for a given invoice id
   rpc GetPackingList(GetPackingListRequest) returns (GetPackingListResponse);
+  rpc ListPackingListsByOrder(ListPackingListsByOrderRequest) returns (ListPackingListsByOrderResponse);
 
 }
 
@@ -307,5 +314,12 @@ message GetPackingListRequest {
 
 message GetPackingListResponse {
   PackingList packing_list = 1;
+}
+message ListPackingListsByOrderRequest {
+  string order_id = 1;
+}
+
+message ListPackingListsByOrderResponse {
+  repeated PackingListSummary packing_lists = 1;
 }
 

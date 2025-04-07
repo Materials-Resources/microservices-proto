@@ -26,8 +26,8 @@ message InvoiceSummary {
   string order_id = 2;
   string status = 3;
   google.protobuf.Timestamp date_invoiced = 4;
-  double total = 5;
-  double amount_paid = 6;
+  double total_amount = 5;
+  double paid_amount = 6;
 }
 
 message LedgerEntry {
