@@ -84,6 +84,9 @@ message Invoice {
   double terms_discount_total = 19;
   google.protobuf.Timestamp terms_discount_due_date = 20;
 
+  string delivery_instructions = 21;
+
+
   InvoiceTotals totals = 29;
   repeated Item items = 30;
 }
