@@ -159,9 +159,9 @@ message Filters {
 message PackingListSummary {
  string invoice_id = 1;
  string order_id = 2;
- string date_invoiced = 3;
-
+ google.protobuf.Timestamp date_invoiced = 3;
 }
+
 message PackingList {
   message Item {
     string product_id = 1;
