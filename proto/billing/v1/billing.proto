@@ -95,6 +95,8 @@ service BillingService {
   rpc GetInvoicesByOrder(GetInvoicesByOrderRequest) returns (GetInvoicesByOrderResponse);
 
   rpc GetInvoice(GetInvoiceRequest) returns (GetInvoiceResponse);
+
+  rpc GetInvoicesByBranch(GetInvoicesByBranchRequest) returns (GetInvoicesByBranchResponse);
 }
 
 message GetInvoicesByOrderRequest {
@@ -111,4 +113,14 @@ message GetInvoiceRequest {
 
 message GetInvoiceResponse {
   Invoice invoice = 1;
+}
+
+message GetInvoicesByBranchRequest {
+  string branch_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message GetInvoicesByBranchResponse {
+  repeated InvoiceSummary invoices = 1;
 }
