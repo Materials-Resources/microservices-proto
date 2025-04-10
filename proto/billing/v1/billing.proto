@@ -123,4 +123,5 @@ message GetInvoicesByBranchRequest {
 
 message GetInvoicesByBranchResponse {
   repeated InvoiceSummary invoices = 1;
+  int32 total_records = 2;
 }
