@@ -28,6 +28,12 @@ enum QuoteStatus {
   QUOTE_STATUS_CLOSED = 4;
 }
 
+enum OrderItemDisposition {
+  ORDER_ITEM_DISPOSITION_UNSPECIFIED  = 0;
+  ORDER_ITEM_DISPOSITION_CANCELED = 1;
+  ORDER_ITEM_DISPOSITION_DROP_SHIPPED = 2;
+}
+
 message Customer {
   string id = 1;
   string name = 2;
@@ -106,7 +112,7 @@ message Order {
     double unit_price = 9;
     double total_price = 10;
     double remaining_quantity = 12;
-    bool is_drop_shipped = 13;
+    OrderItemDisposition disposition = 13;
 
     repeated release releases = 20;
   }
