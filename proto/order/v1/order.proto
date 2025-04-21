@@ -23,9 +23,9 @@ enum OrderStatus {
 enum QuoteStatus {
   QUOTE_STATUS_UNSPECIFIED = 0;
   QUOTE_STATUS_PENDING_APPROVAL = 1;
-  QUOTE_STATUS_APPROVED = 2;
+  QUOTE_STATUS_PROCESSED = 2;
   QUOTE_STATUS_CANCELLED = 3;
-  QUOTE_STATUS_EXPIRED = 4;
+  QUOTE_STATUS_CLOSED = 4;
 }
 
 message Customer {
@@ -86,12 +86,15 @@ message OrderSummary {
   string branch_id = 3;
   string purchase_order = 4;
   OrderStatus status = 5;
-  google.protobuf.Timestamp date_created = 6;
+  google.protobuf.Timestamp date_ordered = 6;
   google.protobuf.Timestamp date_requested = 7;
 }
 
 message Order {
   message Item {
+    message release {
+
+    }
     string id = 1;
     string product_id = 2;
     string product_sn = 3;
@@ -103,6 +106,9 @@ message Order {
     double unit_price = 9;
     double total_price = 10;
     double remaining_quantity = 12;
+    bool is_drop_shipped = 13;
+
+    repeated release releases = 20;
   }
 
   string id = 1;
@@ -110,7 +116,7 @@ message Order {
   string branch_id = 3;
   string purchase_order = 4;
   OrderStatus status = 5;
-  google.protobuf.Timestamp date_created = 6;
+  google.protobuf.Timestamp date_ordered = 6;
   google.protobuf.Timestamp date_requested = 7;
   repeated Item order_items = 8;
   Address shipping_address = 9;
