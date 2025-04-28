@@ -55,6 +55,7 @@ message Product {
   double quantity_available = 7;
   UnitOfMeasurement sales_unit_of_measurement = 8;
   bool has_stock = 9;
+  bool is_active = 10;
 }
 
 message Price {
