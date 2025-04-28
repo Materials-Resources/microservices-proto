@@ -109,6 +109,7 @@ message Order {
       google.protobuf.Timestamp date_released = 1;
       double released_quantity = 2;
       double shipped_quantity = 3;
+      double canceled_quantity = 4;
     }
     string id = 1;
     string product_id = 2;
