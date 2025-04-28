@@ -99,7 +99,9 @@ message OrderSummary {
 message Order {
   message Item {
     message release {
-
+      google.protobuf.Timestamp date_released = 1;
+      double released_quantity = 2;
+      double shipped_quantity = 3;
     }
     string id = 1;
     string product_id = 2;
