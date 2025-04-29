@@ -251,12 +251,17 @@ service OrderService {
 
 }
 
+message OrderFilters {
+  string order_id = 1;
+  string purchase_order = 2;
+}
 message ListOrdersRequest {
   string branch_id = 1;
   // Results to display on a page
   int32 page_size = 2;
   // Currently selected page
   int32 page = 3;
+  OrderFilters filters = 4;
 }
 
 message ListOrdersResponse {
