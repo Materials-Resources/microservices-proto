@@ -6,7 +6,14 @@ import "google/protobuf/go_features.proto";
 option features.(pb.go).api_level = API_OPAQUE;
 
 package billing.v1;
-
+enum InvoiceAdjustmentType {
+  UNSPECIFIED = 0;
+  DEBIT_MEMO = 1;
+  CREDIT_MEMO = 2;
+  BAD_DEBT_WRITE_OFF = 3;
+  BAD_DEBT_RECOVERY = 4;
+  INVOICE = 5;
+}
 message UnitOfMeasurement {
   string id = 1;
   double conversion_factor = 2;
@@ -27,6 +34,7 @@ message InvoiceSummary {
   google.protobuf.Timestamp date_invoiced = 4;
   double total_amount = 5;
   double paid_amount = 6;
+  InvoiceAdjustmentType adjustment_type = 7;
 }
 
 message LedgerEntry {
@@ -84,6 +92,9 @@ message Invoice {
   google.protobuf.Timestamp terms_discount_due_date = 20;
 
   string delivery_instructions = 21;
+
+  InvoiceAdjustmentType adjustment_type = 22;
+
 
 
   InvoiceTotals totals = 29;
