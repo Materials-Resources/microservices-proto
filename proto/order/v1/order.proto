@@ -252,7 +252,7 @@ service OrderService {
 }
 
 message OrderFilters {
-  string order_id = 1;
+  string id = 1;
   string purchase_order = 2;
 }
 message ListOrdersRequest {
@@ -280,11 +280,8 @@ message CreateOrderRequest {}
 message CreateOrderResponse {}
 
 message QuoteFilters {
-  string purchase_order = 1;
-  QuoteStatus status = 2;
-  google.protobuf.Timestamp date_created_after = 3;
-  google.protobuf.Timestamp date_created_before = 4;
-  // ... other filter fields
+  string id = 1;
+  string purchase_order = 2;
 }
 
 message ListQuotesRequest {
