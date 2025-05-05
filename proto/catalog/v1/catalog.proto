@@ -185,11 +185,13 @@ message GetProductResponse {
 
 message ListProductsRequest {
   message Filter {
-    enum DeleteFilter {
-      DELETE_FILTER_UNSPECIFIED = 0;
-      DELETE_FILTER_ALL = 1;
+    enum ActiveFilter {
+      ACTIVE_FILTER_UNSPECIFIED = 0;
+      ACTIVE_FILTER_ACTIVE_ONLY = 1;  // Return only active products
+      ACTIVE_FILTER_INACTIVE_ONLY = 2;  // Return only inactive products
+      ACTIVE_FILTER_ALL = 3;  // Return both active and inactive products
     }
-    DeleteFilter delete_status = 1;
+    ActiveFilter active_status = 1;
 
   }
   Filter filter = 1;
