@@ -67,8 +67,8 @@ message Invoice {
     double line_total = 12;
   }
   string id = 1;
-  string order_id = 2;
-  string purchase_order = 3;
+  string order_id = 2; // order the invoice belongs
+  string purchase_order = 3; // purchase order identifier used for the order
   string customer_id = 4;
   google.protobuf.Timestamp date_invoiced = 5;
   google.protobuf.Timestamp date_ordered = 6;
@@ -94,6 +94,8 @@ message Invoice {
   string delivery_instructions = 21;
 
   InvoiceAdjustmentType adjustment_type = 22;
+
+  string branch_id = 23; // branch this invoice belongs to
 
 
 

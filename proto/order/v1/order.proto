@@ -224,6 +224,8 @@ message PackingList {
   double terms_discount_total = 20;
   google.protobuf.Timestamp terms_discount_due_date = 21;
 
+  string branch_id =22; // branch this packing list belongs to
+
   repeated Item items = 30;
 
 
